@@ -1,15 +1,35 @@
-{% extends base.html %}
+{% extends 'base.html' %}
 
-{%block header_text %}{{ user.username }}'s Expense{% endblock%}
 
 {% block manager_details%}
 <div class='container'>
     <div class='row'>
         <div class='col-md-8 col-md-offset-2 jumbotron'>
-            <>
+            <table id="id_expenses_tale" class='table'>
+                {% for item in expenses.all %}
+                <tr>
+                    {{ item|safe }} 
+                    <td>
+                        <button type='button' class='btn btn-default' onclick='$(".{{item.id}}-expense").editable("toggleDisabled")'>
+                            Edit 
+                        </button>
+                    </td>
+                    <td>
+                        <button type='button' class='btn btn-default' onclick='$(".{{item.id}}-expense").closest("tr").attr("bgcolor","red")'>
+                            Delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
 </div>
 
+<script>
+    function deleteDance(id){
+        $(id).closest('tr').('bgcolor','red')
+        $(id).closest()
+    }
+    </script>
 
 {% endblock %}

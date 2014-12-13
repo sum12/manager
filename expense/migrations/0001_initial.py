@@ -2,13 +2,12 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-from django.conf import settings
+import datetime
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
@@ -16,9 +15,9 @@ class Migration(migrations.Migration):
             name='Expenses',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('dateAdded', models.DateField(default=datetime.datetime(1, 1, 1, 0, 0), auto_now_add=True)),
                 ('amount', models.IntegerField(default=0)),
-                ('sharedWith', models.ForeignKey(default=None, to=settings.AUTH_USER_MODEL)),
-                ('spender', models.ForeignKey(related_name='+', to=settings.AUTH_USER_MODEL)),
+                ('tag', models.CharField(default=None, max_length=10)),
             ],
             options={
             },

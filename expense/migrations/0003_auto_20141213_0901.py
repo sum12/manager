@@ -7,14 +7,14 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('expense', '0001_initial'),
+        ('expense', '0002_auto_20141213_0850'),
     ]
 
     operations = [
-        migrations.AddField(
+        migrations.AlterField(
             model_name='expenses',
-            name='tag',
-            field=models.CharField(default=None, max_length=10),
+            name='sharedWith',
+            field=models.ForeignKey(related_name='+', default=None, to='user_management.User', null=True),
             preserve_default=True,
         ),
     ]
