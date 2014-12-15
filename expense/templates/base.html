@@ -9,7 +9,17 @@
     <!-- x-editable (bootstrap version) -->
     <link href="http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet"/>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+    
 
+    <script>
+        $(document).ready(function(){
+            $.ajaxSetup({
+                  data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+              });
+            {% block initialize_javascript%}
+            {% endblock %}
+        }); 
+    </script>
     </head>
     <body>
         <div class='container'>
