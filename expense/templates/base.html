@@ -9,19 +9,40 @@
     <!-- x-editable (bootstrap version) -->
     <link href="http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet"/>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/x-editable/1.4.6/bootstrap-editable/js/bootstrap-editable.min.js"></script>
-    
-
+    <script type="text/javascript" src="http://127.0.0.1:8000/static/select2.js"></script>    
+    <link href="http://127.0.0.1:8000/static/select2.css" rel="stylesheet">
+    <link href="http://127.0.0.1:8000/static/select2-bootstrap.css" rel="stylesheet">
     <script>
         $(document).ready(function(){
             $.ajaxSetup({
                   data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
               });
+            $('#myselect2').editable({
+                 source: [
+                 {id: 'gb', text: 'Great Britain'},
+                 {id: 'us', text: 'United States'},
+                 {id: 'ru', text: 'Russia'}
+                 ],
+                select2: {
+                    multiple: true,
+                }
+            });
+             $('#country').editable({
+                 source: [
+                 {id: 'gb', text: 'Great Britain'},
+                 {id: 'us', text: 'United States'},
+                 {id: 'ru', text: 'Russia'}
+                 ],
+                 select2: {
+                     multiple: true
+             }});
             {% block initialize_javascript%}
             {% endblock %}
         }); 
     </script>
     </head>
     <body>
+        <a href="#" id="country" data-type="select2" data-value="ru"  data-title="Select country"></a>
         <div class='container'>
             <div class='row'>
                 <div class='col-md-8 col-md-offset-2 jumbotron'>

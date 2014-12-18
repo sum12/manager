@@ -13,6 +13,7 @@ class Expenses(models.Model):
 
 #TODO: this si bad, mixing UI and functionality
 #      may be return a json or something, so api can be easy
+                        #' data-source="/user/{spender_id}/friends"'\
     def __unicode__(self):
         return '<td> {dateAdded} </td>'\
                 '<td> <a href="#" '\
@@ -36,19 +37,20 @@ class Expenses(models.Model):
                            ' {tag} '\
                            '</a> '\
                   '</td>'\
-                  '<td> <a href="#" '\
+                  '<td> <a href="#" id="myselect2"'\
                         ' data-type="select2"'\
-                        ' data-name="sharedWith"'\
-                        ' class="{objId}-expense"'\
-                        ' data-placeholder="shared with">'\
-                        ''\
+                        ' data-title="myselection"'\
+                        ' data-value="ru">'\
+                        ' this si just some text'\
                         '</a>'\
-                  '<\td>'.format(**{
+                  '</td>'.format(**{
                       'dateAdded': self.dateAdded.strftime("%d-%b-%y %H:%M"), 
                       'amount': self.amount, 
-                      'spender': self.spender.username, 
+                      'spender': self.spender.username,
+                      'spender_id':self.spender.id,
                       'tag':self.tag, 
                       'objId': self.id, 
+                      'data-source':'[{id: 1, text: "text1"}, {id: 2, text: "text2"}]',
                       'url': reverse('expense.save'),
-                      'csrf': '"{srfmiddlewaretoken: {%csrf_token%}" '})
+                      'csrf': '"{csrfmiddlewaretoken: {%csrf_token%}" '})
 
