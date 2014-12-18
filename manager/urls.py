@@ -8,6 +8,6 @@ urlpatterns = patterns('',
 
     #url(r'^admin/', include(admin.site.urls)),
     url(r'^expense/', include('expense.urls')),
-    #url(r'^user/$', include('user_manamgemt.urls')),
+    url(r'^user/', include('user_management.urls')),
 
 )
