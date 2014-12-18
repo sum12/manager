@@ -11,7 +11,8 @@ class Expenses(models.Model):
     spender = models.ForeignKey('user_management.User', null=False)
     tag = models.CharField(max_length=100, default=None)
 
-
+#TODO: this si bad, mixing UI and functionality
+#      may be return a json or something, so api can be easy
     def __unicode__(self):
         return '<td> {dateAdded} </td>'\
                 '<td> <a href="#" '\
