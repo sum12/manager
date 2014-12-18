@@ -1,7 +1,6 @@
 from django.db import models
 from datetime import datetime
 from django.core.urlresolvers import reverse
-# Create your models here.
 
 from user_management.models import User
 
@@ -12,7 +11,8 @@ class Expenses(models.Model):
     spender = models.ForeignKey('user_management.User', null=False)
     tag = models.CharField(max_length=100, default=None)
 
-
+#TODO: this si bad, mixing UI and functionality
+#      may be return a json or something, so api can be easy
     def __unicode__(self):
         return '<td> {dateAdded} </td>'\
                 '<td> <a href="#" '\
@@ -20,7 +20,6 @@ class Expenses(models.Model):
                         ' data-param={csrf}'\
                         ' data-pk={objId}'\
                         ' data-name="amount"'\
-                        ' old-value="{amount}"'\
                         ' data-type="text"'\
                         ' class="{objId}-expense">' \
                         ' {amount}'\
@@ -34,10 +33,17 @@ class Expenses(models.Model):
                            ' data-type="text"'\
                            ' data-name="tag"'\
                            ' class="{objId}-expense"'\
-                           ' old-value="{tag}"> '\
                            ' {tag} '\
                            '</a> '\
-                  '</td>'.format(**{
+                  '</td>'\
+                  '<td> <a href="#" '\
+                        ' data-type="select2"'\
+                        ' data-name="sharedWith"'\
+                        ' class="{objId}-expense"'\
+                        ' data-placeholder="shared with">'\
+                        ''\
+                        '</a>'\
+                  '<\td>'.format(**{
                       'dateAdded': self.dateAdded.strftime("%d-%b-%y %H:%M"), 
                       'amount': self.amount, 
                       'spender': self.spender.username, 
