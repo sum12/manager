@@ -8,11 +8,12 @@ import json
 class Expenses(models.Model):
     dateAdded = models.DateField(auto_now_add=True, default=datetime(1,1,1))
     amount = models.IntegerField(default=0)
-    sharedWith = models.ForeignKey('user_management.User', default=None, related_name='+', blank=True, null=True)
+    #saharedExpense = models.ForeignKey('expense.sharedExpense', default=None, related_name='+', blank=True, null=True)
     spender = models.ForeignKey('user_management.User', null=False)
     tag = models.CharField(max_length=100, default=None)
 
-#TODO: this is abad, mixing UI and functionality
+
+#TODO: this is a bad, mixing UI and functionality
 #      may be return a json or something, so api can be easy
                         #' data-source="/user/{spender_id}/friends"'\
     def __unicode__(self):
@@ -40,7 +41,7 @@ class Expenses(models.Model):
                         ' data-type="select2"'\
                            ' data-url={url}'\
                            ' data-pk={objId}'\
-                        ' data-value=""'\
+                        ' data-value="{wit}"'\
                         ' data-name="sharedWith"'\
                         ' data-title="Divide Among Friends">'\
                         ''\
@@ -51,6 +52,10 @@ class Expenses(models.Model):
                       'spender': self.spender.username,
                       'spender_id':self.spender.id,
                       'tag':self.tag, 
-                      'objId': self.id, 
+                      'objId': self.id,
+                      'wit':json.dumps([i.wit.id for i in self.sharedexpense_set.all()]),
                       'url': reverse('expense.save')})
 
+class sharedExpense(models.Model):
+    wit = models.ForeignKey(User, null=False)
+    exp = models.ForeignKey(Expenses,null=False)
