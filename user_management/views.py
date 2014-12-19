@@ -10,7 +10,7 @@ def get_friends(request,user_id):
     response = {'success':True}
     response['msg']=''
     try:
-        response['data']=[{'id':frnd.id,'value':frnd.username} for frnd in User.objects.get(id=user_id).many_friends.all()]
+        response['data']=[{'id':frnd.id,'text':frnd.email} for frnd in User.objects.get(id=user_id).many_friends.all()]
     except Exception, fault:
         response['msg']=str(fault)
         response['success']=False
