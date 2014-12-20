@@ -1,1 +1,1 @@
-web: gunicorn hellodjango.wsgi:application --log-file -
+web: gunicorn manager.wsgi:application --log-file -
