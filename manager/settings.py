@@ -121,3 +121,9 @@ LOGGING = {
             }
         }
 
+
+if not os.environ.get("HOME") == '/home/sumit':
+    # Parse database configuration from $DATABASE_URL
+    import dj_database_url
+    DATABASES['default'] = dj_database_url.config()
+
