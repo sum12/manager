@@ -5,20 +5,22 @@
 {%block initialize_javascript%}
 
 $('.expense').editable();
-$('.myselect2').editable({
-source :function(){
-var values=[];
-$.each(
-{{ many_friends|safe}}
-,function(k,v){
-values.push({id:k,text:v})
+$('.friendadder').editable({
+    source :function(){
+    var values=[];
+    $.each(
+        {{ many_friends|safe}}
+        ,function(k,v){
+            values.push({id:k,text:v})
+            });
+        return values;
+    },
+    select2 : {
+        multiple : true
+        }
 });
-return values;
-},
-select2 : {
-multiple : true
-}
-});
+
+
 
 $('.mytag').editable({
 select2:{

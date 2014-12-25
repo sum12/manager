@@ -12,12 +12,6 @@ from django.core import serializers
 import logging
 logger = logging.getLogger(__name__)
 
-def myfunction():
-    logger.debug("this is a debug message!")
-
-def myotherfunction():
-    logger.error("this is an error message!!")
-
 def add(request):
     admin = User.objects.first()
     Expenses.objects.create(amount=111, spender=admin, tag='again,lunch')
@@ -31,9 +25,8 @@ def index(request):
 
 def save(request):
     response = {'success': True}
-    #requestData = json.loads(request.body)
     requestData = request.POST.copy()
-    logger.error(requestData.lists())
+    #logger.error(requestData.lists())
     #TODO: This is a hack, possible bug in the xeditatble.js
     #      In case when post contains an javascript dict kind
     #      of object it is unable to parse in and sending `value`
@@ -45,23 +38,48 @@ def save(request):
             requestData['value']=[]
     if 'sharedWith' in requestData['name']:
         if 'value[]' in requestData:
-            requestData['value']=[User.objects.filter(id=int(i)) for i in ([y for x,y in requestData.lists() if x =='value[]'][0])]
+            requestData['value']=[User.objects.get(id=int(i)) for i in ([y for x,y in requestData.lists() if x =='value[]'][0])]
         else:
             requestData['value']=[]
-    logger.error(requestData['value'])
+    if 'returned' in requestData['name']:
+        if 'value[]' in requestData:
+            requestData['value']=[User.objects.get(id=int(i)) for i in ([y for x,y in requestData.lists() if x =='value[]'][0])]
+        else:
+            requestData['value']=[]
     if requestData['pk'] and requestData['name']:
-        exp = Expenses.objects.get(id=requestData['pk'])
+        logger.error('name = %s'%requestData['name'])
+        logger.error('value = %s'%requestData['value'])
+        exp=Expenses.objects.get(id=int(requestData['pk']))
         try:
-            if 'sharedWith' in requestData['name']:
-                [i.delete() for i in sharedExpense.objects.filter(exp__id=exp.id)]
-                [sharedExpense(exp=exp,wit=User.objects.get(id=i)).save() for i in requestData['value']]
+            if 'sharedWith' in requestData['name']: 
+                deleteWits = set([u.wit for u in exp.sharedexpense_set.all()]) - set(requestData['value'])
+                addWits = set(requestData['value']) - set([u.wit for u in exp.sharedexpense_set.all()]) 
+                [sharedExpense.objects.get(exp__id=exp.id,wit__id=u.id).delete() for u in deleteWits]
+                [sharedExpense(exp=exp,wit=u).save() for u in addWits]
+            elif 'returned' in requestData['name']:
+                try: 
+                    map(lambda x :setattr(x,requestData['name'],False), exp.sharedexpense_set.all()) 
+                except: 
+                   raise Exception('Expense is not shared')
+                try:
+                    for u in requestData['value']:
+                        sharedexp = sharedExpense.objects.get(exp__id=exp.id,wit__id=u.id)
+                        setattr(sharedexp,requestData['name'],True)
+                        sharedexp.save()
+                except: 
+                    raise Exception('Expense not shared with that person %s'%u.email)
             else:
-                setattr(exp,requestData['name'],requestData['value'])
+                try: 
+                    if requestData['name'] == 'amount' and int(requestData['value'])<0:
+                        raise Exception('Did you really spend that!!!')
+                    setattr(exp,requestData['name'],requestData['value']) 
+                except :  
+                    raise Exception('WOW!! what a number!!')
                 exp.save()
         except Exception, err:
             response['success']=False
             response['msg']=str(err)
-            return HttpResponseBadRequest(json.dumps(response),content_type="text/html")
+            return HttpResponseBadRequest(json.dumps(response['msg']),content_type="text/html")
     return HttpResponse(json.dumps(response),content_type="text/html")
 
 def simple(request):
