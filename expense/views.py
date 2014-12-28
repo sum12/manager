@@ -82,6 +82,22 @@ def save(request):
             return HttpResponseBadRequest(json.dumps(response['msg']),content_type="text/html")
     return HttpResponse(json.dumps(response),content_type="text/html")
 
+def shared(request,user_id):
+    expenses = reduce(lambda x,y:x.append(y),[Expenses.objects.filter(id=sharedWithMe.id) for sharedWithMe in sharedExpense.objects.filter(wit__id=user_id)])
+    removeTheseOptions = {}
+    removeTheseOptions['objId'] = ''
+    removeTheseOptions['url'] = ''
+    removeTheseOptions['wit'] = user_id
+    #expenses = [exp.dump(removeTheseOptions.append({'amount':exp.amount/len(exp.sharedExpense_set.all())})) for exp in expenses]
+    def addAmount(exp):
+        subDict=dict(removeTheseOptions.items())
+        subDict['amount']=exp.amount/(len(exp.sharedexpense_set.all())+1)
+        return  subDict
+    expenses = [exp.dump(addAmount(exp)) for exp in expenses]
+    all_tag = json.dumps(list(set(",".join([t.tag for t in Expenses.objects.filter(spender_id=1)]).split(','))))
+    many_friends = json.dumps({frnd.id:frnd.email for frnd in User.objects.get(id=1).many_friends.all()})
+    return render(request, 'simple_expense_table.html',{'expenses':expenses, 'all_tag':all_tag,'many_friends':many_friends})
+
 def simple(request):
     expenses = Expenses.objects.filter(spender_id=1)
     all_tag = json.dumps(list(set(",".join([t.tag for t in Expenses.objects.filter(spender_id=1)]).split(','))))

@@ -36,7 +36,7 @@ tokenSeparators: [",", " "],
         <div class='col-md-8 col-md-offset-2 jumbotron'>
 
             <table id="id_expenses_table" class='table'>
-                {% for item in expenses.all %}
+                {% for item in expenses %}
                 <tr>
                     {{ item|safe }} 
                 </tr>

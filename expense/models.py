@@ -13,10 +13,23 @@ class Expenses(models.Model):
     tag = models.CharField(max_length=100, default=None)
 
 
+    def __unicode__(self):
+        return self.dump()
+
 #TODO: this is a bad, mixing UI and functionality
 #      may be return a json or something, so api can be easy
 #      ' data-source="/user/{spender_id}/friends"'\
-    def __unicode__(self):
+    def dump(self,useTheseValues={}):
+        formatDict = {'dateAdded': self.dateAdded.strftime("%d-%b-%y %H:%M"), 
+                      'amount': self.amount, 
+                      'spender': self.spender.username,
+                      'spender_id':self.spender.id,
+                      'tag':self.tag, 
+                      'objId': self.id,
+                      'refBy':json.dumps([i.wit.id for i in self.sharedexpense_set.all() if i.returned]),
+                      'wit':json.dumps([i.wit.id for i in self.sharedexpense_set.all()]),
+                      'url': reverse('expense.save')}
+        formatDict.update(useTheseValues)    
         return '<td> {dateAdded} </td>'\
                 '<td> <a href="#" '\
                         ' data-url={url}'\
@@ -56,16 +69,7 @@ class Expenses(models.Model):
                         ' data-title="People Who Have Paid">'\
                         ''\
                         '</a>'\
-                  '</td>'.format(**{
-                      'dateAdded': self.dateAdded.strftime("%d-%b-%y %H:%M"), 
-                      'amount': self.amount, 
-                      'spender': self.spender.username,
-                      'spender_id':self.spender.id,
-                      'tag':self.tag, 
-                      'objId': self.id,
-                      'refBy':json.dumps([i.wit.id for i in self.sharedexpense_set.all() if i.returned]),
-                      'wit':json.dumps([i.wit.id for i in self.sharedexpense_set.all()]),
-                      'url': reverse('expense.save')})
+                  '</td>'.format(**formatDict)
 
 class sharedExpense(models.Model):
     wit = models.ForeignKey(User, null=False)
