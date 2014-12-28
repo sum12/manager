@@ -58,7 +58,7 @@ def save(request):
                 [sharedExpense(exp=exp,wit=u).save() for u in addWits]
             elif 'returned' in requestData['name']:
                 try: 
-                    map(lambda x :setattr(x,requestData['name'],False), exp.sharedexpense_set.all()) 
+                    map(lambda x :setattr(x,requestData['name'],False) or x.save(), exp.sharedexpense_set.all()) 
                 except: 
                    raise Exception('Expense is not shared')
                 try:
