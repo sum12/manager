@@ -19,26 +19,24 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '=mqss@3(pu8-+i_*hotx76&#8&bpkzs4ygma7$=9(z+=*6z!ir'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+#ALLOWED_HOSTS = ['*']
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG =   True
 
 
 # Application definition
 
 INSTALLED_APPS = (
-    #'django.contrib.admin',
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'debug_toolbar',
+    'debug_toolbar',
     'expense',
-    'user_management',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -88,7 +86,9 @@ STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'STATIC'))
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
-
+LOGIN_URL='user_management.login'
+LOGIN_REDIRECT_URL = 'user.friends'
+#AUTH_USER_MODEL = 'user_management.User'
 
 LOGGING = {
         'version': 1,
