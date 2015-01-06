@@ -87,7 +87,7 @@ def save(request):
 def shared(request,user_id):
     try:
         try:
-           expenses = reduce(lambda x,y:x.append(y),[Expenses.objects.filter(id=sharedWithMe.id) for sharedWithMe in sharedExpense.objects.filter(wit__id=user_id)])
+           nexpenses = reduce(lambda x,y:x.append(y),[Expenses.objects.filter(id=sharedWithMe.exp.id) for sharedWithMe in sharedExpense.objects.filter(wit__id=user_id)])
         except:
             raise Exception('No shared expense with you')
         removeTheseOptions = {}
@@ -99,13 +99,13 @@ def shared(request,user_id):
             subDict=dict(removeTheseOptions.items())
             subDict['amount']=exp.amount/(len(exp.sharedexpense_set.all())+1)
             return  subDict
-        expenses = [exp.dump(addAmount(exp)) for exp in expenses]
+        expenses = [exp.dump(addAmount(exp)) for exp in nexpenses]
         all_tag = json.dumps(list(set(",".join([t.tag for t in Expenses.objects.filter(spender_id=1)]).split(','))))
         many_friends = json.dumps({frnd.id:frnd.email for frnd in User.objects.get(id=1).many_friends.all()})
     except Exception,e:
         return HttpResponseBadRequest(str(e))
 
-    return render(request, 'simple_expense_table.html',{'expenses':expenses, 'all_tag':all_tag,'many_friends':many_friends})
+    return render(request, 'simple_expense_table.html',{'nexp':nexpenses,'expenses':expenses, 'all_tag':all_tag,'many_friends':many_friends})
 #"/expense/answers/'+str(self.ques_id)+'/'+str(self.counter)+'/" '\
 
 def simple(request):
