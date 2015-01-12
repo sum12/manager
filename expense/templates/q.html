@@ -1,0 +1,21 @@
+{% extends "bb.html" %}
+
+{% block header_text%}
+{{ q }}
+{% endblock %}
+
+
+
+{%block initialize_javascript%}
+
+
+
+$('.code').editable();
+
+{%endblock%}
+
+{% block manager_details%}
+<pre>{{ c|safe }}
+</pre>
+{% endblock %}
+
