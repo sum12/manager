@@ -68,6 +68,8 @@ def save(request):
                 try: 
                     if requestData['name'] == 'amount' and int(requestData['value'])<0:
                         raise Exception('Did you really spend that!!!')
+                    if requestData['name'] == 'tag':
+                        requestData['value'] = ','.join(map(str,requestData['value']))
                     setattr(exp,requestData['name'],requestData['value']) 
                 except :  
                     raise Exception('WOW!! what a number!!')

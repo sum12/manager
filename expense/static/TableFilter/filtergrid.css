@@ -292,7 +292,7 @@ div.grd_Cont .odd{ background-color:#DFE8F6; }/*row bg alternating color*/
 .ezInputEditor{ width:95%; height:auto; font-size:inherit; border:1px solid #AACCF6; }
 .ezTextareaEditor{ width:95%; height:35px; font-size:inherit; border:1px solid #AACCF6; }
 .ezSelectEditor{ width:100%; font-size:inherit; border:1px solid #AACCF6; }
-.ezModifiedCell{ background:transparent url(themes/bg_mod_cell.png) 0 0 no-repeat; }
+/*.ezModifiedCell{ background:transparent url(themes/bg_mod_cell.png) 0 0 no-repeat; }*/
 select[multiple="multiple"].ezSelectEditor{ height:35px; }
 /* Command type editor */
 .ezCommandEditor{ margin:2px; }
