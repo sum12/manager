@@ -40,7 +40,6 @@ class Expenses(models.Model):
                         ' {amount}'\
                       ' </a>'\
                  '</td>'\
-                 '<td> {spender} </td>'\
                  '<td> <a href="#" '\
                            ' data-url={url}'\
                            ' data-pk={objId}'\

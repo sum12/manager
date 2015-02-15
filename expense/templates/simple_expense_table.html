@@ -4,30 +4,51 @@
 
 {%block initialize_javascript%}
 
-$('.expense').editable();
+$('.expense').editable({
+                params: function(params) {
+                    params['csrfmiddlewaretoken'] = '{{csrf_token}}';
+                    retObject = JSON.stringify(params);
+                    retObject['csrfmiddlewaretoken'] = '{{csrf_token}}';
+                    return retObject;
+                }
+               
+});
 $('.friendadder').editable({
-    source :function(){
-    var values=[];
-    $.each(
-        {{ many_friends|safe}}
-        ,function(k,v){
-            values.push({id:k,text:v})
-            });
-        return values;
-    },
-    select2 : {
-        multiple : true
-        }
+                params: function(params) {
+                    retObject = JSON.stringify(params);
+                    retObject['csrfmiddlewaretoken'] = '{{csrf_token}}';
+                    return retObject;
+                },
+                source :function(){
+                    var values=[];
+                    $.each(
+                        {{ many_friends|safe}}
+                        ,function(k,v){
+                            values.push({id:k,text:v})
+                        });
+                    return values;
+                },
+                select2 : {
+                    multiple : true
+                }
 });
 
-
+setFilterGrid("id_expenses_table", {
+                                grid_layout:false,
+                            });
 
 $('.mytag').editable({
-select2:{
-tags: {{all_tag|safe}},
-tokenSeparators: [",", " "],
-}
+                params: function(params) {
+                    retObject = JSON.stringify(params);
+                    retObject.csrfmiddlewaretoken = '{{csrf_token}}';
+                    return retObject;
+                },
+                select2:{
+                    tags: {{all_tag|safe}},
+                    tokenSeparators: [",", " "],
+                },
 });
+
 {%endblock%}
 
 {% block manager_details%}
@@ -35,12 +56,31 @@ tokenSeparators: [",", " "],
     <div class='row'>
         <div class='col-md-8 col-md-offset-2 jumbotron'>
 
-            <table id="id_expenses_table" class='table'>
+            <table id="id_expenses_table" >
+                <th> Moment</th>
+                <th> How Much</th>
+                <th> Tags </th>
+                <th> With </th>
+                <th> Refunded? </th>
                 {% for item in expenses %}
                 <tr>
                     {{ item|safe }} 
                 </tr>
                 {% endfor %}
+                <tr class="hidden">
+                    <td> NOW </td>
+                    <td> <a href="#" data-url="" data-pk=0 data-name="amount" data-type="text" class="{objId}-expense expense"> </a> </td>
+                    <td> <a href="#" data-url="" data-pk=0 data-type="select2" data-name="tag" class="mytag"> </a> </td>
+                    <td> <a href="#" class="friendadder" data-type="select2" data-url="" data-pk=0 data-value="" data-name="sharedWith" data-title="Divide Among Friends"> </a> </td>
+                    <td> <a href="#" class="friendadder" data-type="select2" data-url="" data-pk=0 data-value="" data-name="returned" data-title="People Who Have Paid"> </a> </td>
+                </tr>
+                <tr> 
+                    <td colspan=5 > 
+                        <button class="btn btn-default" onclick=newExpense()> 
+                            Add 
+                        </button> 
+                    </td> 
+                </tr>
             </table>
         </div>
     </div>
