@@ -12,17 +12,32 @@
     <script type="text/javascript" src="/static/select2.js"></script>    
     <link href="/static/select2.css" rel="stylesheet">
     <link href="/static/select2-bootstrap.css" rel="stylesheet">
+    <script src="/static/table.js"></script>
+    <script src="/static/TableFilter/tablefilter_all.js"></script>
 
+    <link href="/static/TableFilter/filtergrid.css" rel="stylesheet">
 
     <script>
         $(document).ready(function(){
             $.fn.editable.defaults.mode = 'inline';
-            $.ajaxSetup({
+            $.ajaxSetup({  
+                  contentType : 'application/json',
                   data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
-              });
+                  headers : {
+                      'X-CSRFToken': '{{ csrf_token }}' ,
+                  },
+            });
             {% block initialize_javascript%}
             {% endblock %}
         }); 
+        function newExpense(){
+            var $table = $('#id_expenses_table');
+            var hiddenRow = $table.find('tr.hidden');
+            var row = hiddenRow.clone(true).removeClass('hidden');
+            row.editable();
+            $table.append(row);
+            
+        };
     </script>
     </head>
     <body>
