@@ -37,19 +37,23 @@ def save(request):
     if requestData['pk'] and requestData['name']:
         logger.error('value = %s'%requestData['value'])
         exp=Expenses.objects.get(id=int(requestData['pk']))
+        logger.error(exp)
         try:
             if 'sharedWith' in requestData['name']: 
                 requestData['value'] = map(int,requestData['value'])
-                deleteWits = set([u.wit.id for u in exp.sharedexpense_set.all()]) - set(requestData['value'])
-                addWits = set(requestData['value']) - set([u.wit.id for u in exp.sharedexpense_set.all()]) 
+                deleteWits = list(set([u.wit.id for u in exp.sharedexpense_set.all()]) - set(requestData['value']))
+                logger.debug(deleteWits)
+                logger.error('value = %s'%requestData['value'])
+                addWits = list(set(requestData['value']) - set([u.wit.id for u in exp.sharedexpense_set.all()])) 
                 [sharedExpense.objects.get(exp__id=exp.id,wit__id=u).delete() for u in deleteWits]
                 for uid in requestData['value']:
+                    logger.debug("uid=%s"%uid)
                     usr = User.objects.get(id=int(uid))
                     sharedExpense(exp=exp,wit=usr).save() 
             elif 'returned' in requestData['name']:
                 requestData['value'] = map(int,requestData['value'])
-                deleteWits = set([u.wit.id for u in exp.sharedexpense_set.all()]) - set(requestData['value'])
-                addWits = set(requestData['value']) - set([u.wit.id for u in exp.sharedexpense_set.all()]) 
+                deleteWits = list(set([u.wit.id for u in exp.sharedexpense_set.all()]) - set(requestData['value']))
+                addWits = list(set(requestData['value']) - set([u.wit.id for u in exp.sharedexpense_set.all()]))
                 try:
                     for u in deleteWits:
                         obj = sharedExpense.objects.get(exp__id=exp.id,wit__id=u)
