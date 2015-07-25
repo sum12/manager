@@ -1,15 +1,16 @@
 from django.db import models
 from datetime import datetime
+from django.conf import settings
 from django.core.urlresolvers import reverse
 
-from user_management.models import User
+User = settings.AUTH_USER_MODEL
 
 import json
 class Expenses(models.Model):
     dateAdded = models.DateField(auto_now_add=True, default=datetime(1,1,1))
     amount = models.PositiveIntegerField(default=0)
     #saharedExpense = models.ForeignKey('expense.sharedExpense', default=None, related_name='+', blank=True, null=True)
-    spender = models.ForeignKey('user_management.User', null=False)
+    spender = models.ForeignKey(User, null=False)
     tag = models.CharField(max_length=100, default=None)
 
 

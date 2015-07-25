@@ -7,7 +7,7 @@ import random
 
 
 from expense.models import *
-from user_management.models import User
+from user_management.models import Person as User
 
 from django.core import serializers
 # Create your views here.

@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'debug_toolbar',
     'expense',
     'user_management',
@@ -55,6 +56,7 @@ ROOT_URLCONF = 'manager.urls'
 
 WSGI_APPLICATION = 'manager.wsgi.application'
 
+AUTH_USER_MODEL = 'user_management.Person'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
