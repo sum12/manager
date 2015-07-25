@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from user_management import urls as user_urls
 
 urlpatterns = patterns('',
     # Examples:
@@ -8,6 +9,6 @@ urlpatterns = patterns('',
 
     #url(r'^admin/', include(admin.site.urls)),
     url(r'^expense/', include('expense.urls')),
-    url(r'^user', include('user_management.urls')),
+    url(r'^person/', include(user_urls.urlpatterns)),
 
 )

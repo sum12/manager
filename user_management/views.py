@@ -2,10 +2,10 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets, authentication, permissions, filters
-from .serializers import UserSerializer
+from .serializers import PersonSerializer
 import json
 
-User = get_user_model()
+Person = get_user_model()
 
 def get_friends(request,user_id):
     response = {'success':True}
@@ -18,7 +18,7 @@ def get_friends(request,user_id):
     return HttpResponse(json.dumps(response['data']),content_type="text/html")
 
 def index(request):
-     return HttpResponse('Users are being resurected!!!')
+     return HttpResponse('Persons are being resurected!!!')
 
 
 class DefaultsMixin(object):
@@ -38,9 +38,10 @@ class DefaultsMixin(object):
             )
 
 
-class UserViewSet(DefaultsMixin, viewsets.ReadOnlyModelViewSet):
-   lookup_field = User.USERNAME_FIELD
-   lookup_url_kwargs = User.USERNAME_FIELD
-   queryset = User.objects.order_by(User.USERNAME_FIELD)
-   serializer_class = UserSerializer
-   search_fields = (User.USERNAME_FIELD, )
+class PersonViewSet(DefaultsMixin, viewsets.ReadOnlyModelViewSet):
+   lookup_field = Person.USERNAME_FIELD
+   lookup_value_regex = '[^/]+'
+   lookup_url_kwargs = Person.USERNAME_FIELD
+   queryset = Person.objects.order_by(Person.USERNAME_FIELD)
+   serializer_class = PersonSerializer
+   search_fields = (Person.USERNAME_FIELD, )

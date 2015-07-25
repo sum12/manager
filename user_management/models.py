@@ -5,23 +5,21 @@ from django.contrib.auth.models import (
 
 
 class PersonManager(BaseUserManager):
-    def create_user(self, email, date_of_birth, password=None):
+    def create_user(self, email, password=None):
         if not email:
             raise ValueError('Users must have an email address')
 
         user = self.model(
             email=self.normalize_email(email),
-            date_of_birth=date_of_birth,
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, date_of_birth, password):
+    def create_superuser(self, email, password):
         user = self.create_user(email,
             password=password,
-            date_of_birth=date_of_birth
         )
         user.is_admin = True
         user.save(using=self._db)
@@ -36,14 +34,17 @@ class Person(AbstractBaseUser):
         unique=True,
     )
 
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField(null=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    friends = models.ForeignKey("self")
+    friends = models.ForeignKey("self",null=True)
 
     objects = PersonManager()
 
     USERNAME_FIELD = 'email'
+
+    def get_username(self):
+        return self.email
 
     def get_full_name(self):
         return self.email
