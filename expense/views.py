@@ -1,16 +1,14 @@
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseBadRequest,HttpResponseNotFound
+from django.contrib.auth import get_user_model
 import json
 import re
 import random
-#    from django.utils import simplejson as json
 
 
 from expense.models import *
-from user_management.models import Person as User
+User = get_user_model()
 
-from django.core import serializers
-# Create your views here.
 import logging
 logger = logging.getLogger(__name__)
 

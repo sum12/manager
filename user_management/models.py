@@ -1,8 +1,4 @@
 from django.db import models
-
-from django.contrib.auth.models import User as Duser
-
-from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
 )

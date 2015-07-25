@@ -2,15 +2,16 @@ from django.db import models
 from datetime import datetime
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.conf import settings
+import json
 
 User = settings.AUTH_USER_MODEL
 
-import json
 class Expenses(models.Model):
     dateAdded = models.DateField(auto_now_add=True, default=datetime(1,1,1))
     amount = models.PositiveIntegerField(default=0)
     #saharedExpense = models.ForeignKey('expense.sharedExpense', default=None, related_name='+', blank=True, null=True)
-    spender = models.ForeignKey(User, null=False)
+    spender = models.ForeignKey(settings.AUTH_USER_MODEL, null=False)
     tag = models.CharField(max_length=100, default=None)
 
 
@@ -73,6 +74,6 @@ class Expenses(models.Model):
                   '</td>'.format(**formatDict)
 
 class sharedExpense(models.Model):
-    wit = models.ForeignKey(User, null=False)
+    wit = models.ForeignKey(settings.AUTH_USER_MODEL, null=False)
     exp = models.ForeignKey(Expenses,null=False)
     returned = models.BooleanField(default=False,null=False)
