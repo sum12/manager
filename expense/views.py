@@ -112,3 +112,11 @@ def simple(request):
     many_friends = json.dumps({frnd.id:frnd.email for frnd in User.objects.get(id=1).many_friends.all()})
     return render(request, 'simple_expense_table.html',{'expenses':expenses, 'all_tag':all_tag,'many_friends':many_friends})
 
+
+from rest_framework import viewsets
+from .models import Expenses
+from .serializers import ExpenseSerializer
+
+class ExpenseViewSet(viewsets.ModelViewSet):
+    queryset = Expenses.objects.all()
+    serializer_class = ExpenseSerializer

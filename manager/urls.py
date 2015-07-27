@@ -1,14 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from user_management import urls as user_urls
+from expense import urls as expense_urls
 
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'manager.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-
-    #url(r'^admin/', include(admin.site.urls)),
-    url(r'^expense/', include('expense.urls')),
-    url(r'^person/', include(user_urls.urlpatterns)),
-
-)
+urlpatterns = user_urls.router.urls + expense_urls.router.urls
