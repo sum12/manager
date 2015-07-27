@@ -6,6 +6,7 @@ from . import views
 
 router = DefaultRouter(trailing_slash=False)
 router.register(r'api', views.PersonViewSet)
+router.register(r'friend', views.FriendViewSet)
 urlpatterns = patterns('user_management.views',
     # Examples:
     # url(r'^$', 'manager.views.home', name='home'),

@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets, authentication, permissions, filters
-from .serializers import PersonSerializer
+from .serializers import PersonSerializer, FriendSerializer
+from .models import Friend
 import json
 
 Person = get_user_model()
@@ -38,10 +39,18 @@ class DefaultsMixin(object):
             )
 
 
-class PersonViewSet(DefaultsMixin, viewsets.ReadOnlyModelViewSet):
+class PersonViewSet(DefaultsMixin, viewsets.ModelViewSet):
    lookup_field = Person.USERNAME_FIELD
-   lookup_value_regex = '[^/]+'
    lookup_url_kwargs = Person.USERNAME_FIELD
    queryset = Person.objects.order_by(Person.USERNAME_FIELD)
    serializer_class = PersonSerializer
    search_fields = (Person.USERNAME_FIELD, )
+
+
+class FriendViewSet(DefaultsMixin, viewsets.ModelViewSet):
+   lookup_field = Person.USERNAME_FIELD
+   lookup_url_kwargs = Person.USERNAME_FIELD
+   queryset = Friend.objects.all()
+   serializer_class = FriendSerializer
+   search_fields = ('=f1__id',)
+

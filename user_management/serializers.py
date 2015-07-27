@@ -1,7 +1,8 @@
 from rest_framework import serializers
 from rest_framework.reverse import  reverse
-
 from django.contrib.auth import get_user_model
+
+from .models import Friend
 
 Person = get_user_model()
 
@@ -13,9 +14,19 @@ class PersonSerializer(serializers.ModelSerializer):
     def get_links(self, obj):
         request =  self.context['request']
         return {
-                'self': reverse("person-detail", request=request, kwargs={Person.USERNAME_FIELD:obj.get_username()}),
+                'self': reverse("user-detail", request=request, kwargs={Person.USERNAME_FIELD:obj.get_username()}),
                 }
 
     class Meta:
         model = Person
-        fields = (Person.USERNAME_FIELD, 'full_name', 'is_active', 'links')
+        fields = ('id', Person.USERNAME_FIELD, 'full_name', 'is_active', 'links' , 'friends_with')
+
+
+class FriendSerializer(serializers.ModelSerializer):
+    name1 = serializers.CharField(read_only=True)
+    name2 = serializers.CharField(read_only=True)
+    f1 = serializers.PrimaryKeyRelatedField(queryset=Person.objects.all())
+    f2 = serializers.PrimaryKeyRelatedField(queryset=Person.objects.all())
+    class Meta:
+        model = Friend
+        fields = ('id', "f1", "f2", 'name1', 'name2')
