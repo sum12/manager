@@ -15,11 +15,12 @@ class PersonSerializer(serializers.ModelSerializer):
         request =  self.context['request']
         return {
                 'self': reverse("user-detail", request=request, kwargs={Person.USERNAME_FIELD:obj.get_username()}),
+                'friends_with' :  "{url}?search={key}".format(url=reverse('friend-list',request=request),key=obj.id)
                 }
 
     class Meta:
         model = Person
-        fields = ('id', Person.USERNAME_FIELD, 'full_name', 'is_active', 'links' , 'friends_with')
+        fields = ('id', Person.USERNAME_FIELD, 'full_name', 'is_active', 'links' )
 
 
 class FriendSerializer(serializers.ModelSerializer):
