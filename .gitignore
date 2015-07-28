@@ -55,3 +55,5 @@ target/
 db.sqlite3
 STATIC
 .venv
+bower_components
+node_modules

@@ -1,0 +1,23 @@
+{
+  "name": "expense",
+  "version": "0.0.0",
+  "homepage": "https://github.com/sum12/manager",
+  "description": "my expense tracker",
+  "authors": [
+    "me"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-grid": "~3.0.1",
+    "angular-bootstrap": "~0.13.1",
+    "bootstrap": "~3.3.5"
+  },
+  "devDependencies": {}
+}

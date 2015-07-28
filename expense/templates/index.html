@@ -1,0 +1,41 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html ng-app="managerapp">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Expense Board</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript">
+            var ANGULAR_TEMPLATE_PATH = "{{ STATIC_URL }}";
+        </script>
+        <!-- inject:css -->
+        <!-- endinject -->
+
+        <!-- bower:css -->
+        <link rel="stylesheet" href="{% static "../static/bower_components/angular-ui-grid/ui-grid.css" %}" />
+        <link rel="stylesheet" href="{% static "../static/bower_components/bootstrap/dist/css/bootstrap.css" %}" />
+        <!-- endbower -->
+
+    </head>
+    <body class='container'>
+            <div class='jumbotron row' ng-controller="expense_ctrlr">
+                <div class='col-md-12'>
+                    <div ui-grid=gridOptions style='width:90%'> </div> 
+                </div>
+            </div>
+
+        <!-- bower:js -->
+        <script src="{% static "../static/bower_components/angular/angular.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/bower_components/angular-ui-grid/ui-grid.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/bower_components/angular-bootstrap/ui-bootstrap-tpls.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/bower_components/jquery/dist/jquery.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/bower_components/bootstrap/dist/js/bootstrap.js" %}" type="text/javascript" charset="utf-8"></script>
+        <!-- endbower -->
+
+        <!-- inject:js -->
+        <script src="{% static "js/app.js" %}" type="text/javascript" charset="utf-8"></script>
+        <!-- endinject -->
+    </body>
+</html>
