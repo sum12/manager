@@ -15,9 +15,9 @@
     "tests"
   ],
   "dependencies": {
-    "angular-ui-grid": "~3.0.1",
     "angular-bootstrap": "~0.13.1",
-    "bootstrap": "~3.3.5"
+    "bootstrap": "~3.3.5",
+    "angular-xeditable": "~0.1.9"
   },
   "devDependencies": {}
 }
