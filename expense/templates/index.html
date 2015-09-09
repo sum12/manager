@@ -14,28 +14,26 @@
         <!-- endinject -->
 
         <!-- bower:css -->
-        <link rel="stylesheet" href="{% static "../static/bower_components/angular-ui-grid/ui-grid.css" %}" />
-        <link rel="stylesheet" href="{% static "../static/bower_components/bootstrap/dist/css/bootstrap.css" %}" />
+        <link rel="stylesheet" href="{% static "../static/expense/bower_components/bootstrap/dist/css/bootstrap.css" %}" />
+        <link rel="stylesheet" href="{% static "../static/expense/bower_components/angular-xeditable/dist/css/xeditable.css" %}" />
         <!-- endbower -->
 
     </head>
     <body class='container'>
-            <div class='jumbotron row' ng-controller="expense_ctrlr">
-                <div class='col-md-12'>
-                    <div ui-grid=gridOptions style='width:90%'> </div> 
-                </div>
+            <div class='jumbotron row' ng-controller="expenseController">
+                    <expense ng-repeat="exp in explist"> </expense>
             </div>
 
         <!-- bower:js -->
-        <script src="{% static "../static/bower_components/angular/angular.js" %}" type="text/javascript" charset="utf-8"></script>
-        <script src="{% static "../static/bower_components/angular-ui-grid/ui-grid.js" %}" type="text/javascript" charset="utf-8"></script>
-        <script src="{% static "../static/bower_components/angular-bootstrap/ui-bootstrap-tpls.js" %}" type="text/javascript" charset="utf-8"></script>
-        <script src="{% static "../static/bower_components/jquery/dist/jquery.js" %}" type="text/javascript" charset="utf-8"></script>
-        <script src="{% static "../static/bower_components/bootstrap/dist/js/bootstrap.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/expense/bower_components/angular/angular.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/expense/bower_components/angular-bootstrap/ui-bootstrap-tpls.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/expense/bower_components/jquery/dist/jquery.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/expense/bower_components/bootstrap/dist/js/bootstrap.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/expense/bower_components/angular-xeditable/dist/js/xeditable.js" %}" type="text/javascript" charset="utf-8"></script>
         <!-- endbower -->
 
         <!-- inject:js -->
-        <script src="{% static "js/app.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "expense/js/app.js" %}" type="text/javascript" charset="utf-8"></script>
         <!-- endinject -->
     </body>
 </html>

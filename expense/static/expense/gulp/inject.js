@@ -22,7 +22,7 @@ gulp.task('inject', ['styles'], function () {
 
   var injectOptions = {
     addRootSlash: false,
-    addPrefix:'',
+    addPrefix:'expense',
     transform: function (filepath) {
                 if (filepath.slice(-3) === '.js') {
                     return "<script src=\"{% static \""+ filepath +"\" %}\" type=\"text/javascript\" charset=\"utf-8\"></script>";
@@ -39,7 +39,6 @@ gulp.task('inject', ['styles'], function () {
     devDependencies: true,
     ignorePath:'../../static/',
     directory: 'bower_components',
-    //exclude: [/bootstrap\.css/, /bootstrap\.css/, /foundation\.css/],
     relative:false,
     fileTypes:{
         html:{
@@ -55,10 +54,10 @@ gulp.task('inject', ['styles'], function () {
     }
   };
 
-  return gulp.src(paths.src + '/../templates/index.html')
+  return gulp.src(paths.src + '/../../templates/index.html')
     .pipe($.inject(injectStyles, injectOptions))
     .pipe($.inject(injectScripts, injectOptions))
     .pipe(wiredep(wiredepOptions))
-    .pipe(gulp.dest(paths.src + '/../templates/'));
+    .pipe(gulp.dest(paths.src + '/../../templates/'));
 
 });
