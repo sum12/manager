@@ -5,8 +5,6 @@ import json
 import re
 import random
 
-from .metadata import ExpenseMetadata
-
 from expense.models import *
 User = get_user_model()
 
@@ -136,6 +134,5 @@ class DefaultsMixin(object):
             )
 
 class ExpenseViewSet(DefaultsMixin, viewsets.ModelViewSet):
-    metadata_class = ExpenseMetadata
     queryset = Expenses.objects.all()
     serializer_class = ExpenseSerializer
