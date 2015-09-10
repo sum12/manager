@@ -35,7 +35,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-#    'debug_toolbar',
+    'debug_toolbar',
     'rest_framework',
     'expense',
     'user_management',
@@ -84,7 +84,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.abspath(os.path.join(BASE_DIR, 'STATIC'))
 
 
 REST_FRAMEWORK = {
@@ -130,7 +129,7 @@ LOGGING = {
 
 
 if not os.environ.get("HOME") == '/home/sumit':
-    # Parse database configuration from $DATABASE_URL
+  # Parse database configuration from $DATABASE_URL
     import dj_database_url
     DATABASES['default'] = dj_database_url.config()
 
