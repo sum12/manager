@@ -1,3 +1,3 @@
 npm install -g bower
-cd /app/STATIC/expense/
-bower install -q
+cd /app/expense/static/expense
+bower install -q -s 
