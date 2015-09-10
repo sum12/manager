@@ -11,17 +11,21 @@
             var ANGULAR_TEMPLATE_PATH = "{{ STATIC_URL }}";
         </script>
         <!-- inject:css -->
+        <link rel="stylesheet" href="{% static "expense/css/fontawesome/scss/font-awesome.css" %}" />
         <!-- endinject -->
 
         <!-- bower:css -->
         <link rel="stylesheet" href="{% static "../static/expense/bower_components/bootstrap/dist/css/bootstrap.css" %}" />
         <link rel="stylesheet" href="{% static "../static/expense/bower_components/angular-xeditable/dist/css/xeditable.css" %}" />
+        <link rel="stylesheet" href="{% static "../static/expense/bower_components/fontawesome/css/font-awesome.css" %}" />
         <!-- endbower -->
 
     </head>
     <body class='container'>
-            <div class='jumbotron row' ng-controller="expenseController">
-                    <expense ng-repeat="exp in explist"> </expense>
+            <div class='row jumbotron' ng-controller="expenseController">
+                    <div ng-repeat="exp in explist">
+                        <div expense ob="exp" update-parent="saveExpense(d, cb)"> </div>
+                    </div>
             </div>
 
         <!-- bower:js -->

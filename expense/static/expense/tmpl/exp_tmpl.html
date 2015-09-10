@@ -1,8 +1,16 @@
-<h3>
-    <div class="col-md-6">
-        <a href="#" editable-number="exp.amount"> [[ exp.amount ]] </a>
-    </div>
-    <div class="col-md-6">
-        <a href="#" editable-text="exp.tag"> [[ exp.tag ]] </a>
-    </div>
-</h1>
+<div class="col-md-12 input-group">
+    <span class="input-group-btn">
+        <button ng-click="pinIt()" ng-disabled="editing" class="btn" ng-class="ob.pinned ? 'btn-primary': 'btn-default'"> 
+            <i class="fa" ng-class="ob.pinned ? 'fa-hand-grab-o' : 'fa-hand-paper-o'"></i>
+        </button>
+        <button ng-click="toggleEdit()" ng-if="!editing" class="btn btn-default glyphicon glyphicon-edit">  </button>
+        <button ng-click="repost(true)" ng-if="editing" class="btn btn-default glyphicon glyphicon-ok"> </button>
+    </span>
+    <input  class="form-control" type="number" placeholder="[[ ::ob.amount]]" ng-model=ob.amount> </input>
+    <span class="input-group-btn" style="width:0px;"></span>
+    <input  class="form-control" type="text" placeholder="[[ ::ob.tag]]" ng-model=ob.tag> </input>
+    <span class="input-group-btn">
+        <button ng-click="repost()" ng-if="!editing" class="btn btn-default glyphicon glyphicon-repeat">  </button>
+        <button ng-click="toggleEdit()" ng-if="editing" class="btn btn-default glyphicon glyphicon-remove"> </button>
+    </span>
+</div>

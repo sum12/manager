@@ -17,7 +17,22 @@
   "dependencies": {
     "angular-bootstrap": "~0.13.1",
     "bootstrap": "~3.3.5",
-    "angular-xeditable": "~0.1.9"
+    "angular-xeditable": "~0.1.9",
+    "fontawesome": "~4.4.0"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "overrides":{
+      "fontawesome": {
+          "main": [
+              "css/font-awesome.css",
+              "./fonts/*"
+              ]
+      },
+      "font-awesome": {
+          "main": [
+              "css/font-awesome.css",
+              "./fonts/*"
+              ]
+      }
+  }
 }

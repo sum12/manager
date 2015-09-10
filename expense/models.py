@@ -13,6 +13,7 @@ class Expenses(models.Model):
     #saharedExpense = models.ForeignKey('expense.sharedExpense', default=None, related_name='+', blank=True, null=True)
     spender = models.ForeignKey(settings.AUTH_USER_MODEL, null=False)
     tag = models.CharField(max_length=100, default=None)
+    pinned = models.BooleanField(default=False)
 
 
 class sharedExpense(models.Model):
