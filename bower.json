@@ -1,0 +1,38 @@
+{
+  "name": "expense",
+  "version": "0.0.0",
+  "homepage": "https://github.com/sum12/manager",
+  "description": "my expense tracker",
+  "authors": [
+    "me"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-bootstrap": "~0.13.1",
+    "bootstrap": "~3.3.5",
+    "angular-xeditable": "~0.1.9",
+    "fontawesome": "~4.4.0"
+  },
+  "devDependencies": {},
+  "overrides":{
+      "fontawesome": {
+          "main": [
+              "css/font-awesome.css",
+              "./fonts/*"
+              ]
+      },
+      "font-awesome": {
+          "main": [
+              "css/font-awesome.css",
+              "./fonts/*"
+              ]
+      }
+  }
+}
