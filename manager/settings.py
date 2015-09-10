@@ -131,7 +131,7 @@ LOGGING = {
 
 if not os.environ.get("HOME") == '/home/sumit':
   # Parse database configuration from $DATABASE_URL
-    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+    STATICFILES_STORAGE = 'whitenoise.django.ManifestStaticFilesStorage'
     import dj_database_url
     DATABASES['default'] = dj_database_url.config()
 
