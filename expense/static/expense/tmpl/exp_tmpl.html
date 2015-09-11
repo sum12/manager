@@ -6,9 +6,11 @@
         <button ng-click="toggleEdit()" ng-if="!editing" class="btn btn-default glyphicon glyphicon-edit">  </button>
         <button ng-click="repost(true)" ng-if="editing" class="btn btn-default glyphicon glyphicon-ok"> </button>
     </span>
-    <input  class="form-control" type="number" placeholder="[[ ::ob.amount]]" ng-model=ob.amount> </input>
+    <span class="input-group-btn" style="width:20%">
+        <input  class="form-control" type="number" placeholder="[[ ::ob.amount]]" ng-model=ob.amount> </input>
+    </span>
     <span class="input-group-btn" style="width:0px;"></span>
-    <input  class="form-control" type="text" placeholder="[[ ::ob.tag]]" ng-model=ob.tag> </input>
+    <input  class="form-control col-md-10" type="text" placeholder="[[ ::ob.tag]]" ng-model=ob.tag> </input>
     <span class="input-group-btn">
         <button ng-click="repost()" ng-if="!editing" class="btn btn-default glyphicon glyphicon-repeat">  </button>
         <button ng-click="toggleEdit()" ng-if="editing" class="btn btn-default glyphicon glyphicon-remove"> </button>
