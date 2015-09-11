@@ -64,12 +64,15 @@ angular.module('managerapp', [
                 };
                 $scope.repost = function(edit){
                     var dat = angular.copy($scope.ob);
+                    var cb = undefined;
                     if(!!!edit){
                         delete(dat.id);
                     }
-                    cb = function(done){
-                        if(done){
-                            $scope.toggleEdit()
+                    else{
+                        cb = function(done){
+                            if(done){
+                                $scope.toggleEdit()
+                            }
                         }
                     }
                     $scope.updateParent({d:dat, cb:cb});
