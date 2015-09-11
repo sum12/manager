@@ -1,18 +1,19 @@
-<div class="col-md-12 input-group">
-    <span class="input-group-btn">
-        <button ng-click="pinIt()" ng-disabled="editing" class="btn" ng-class="ob.pinned ? 'btn-primary': 'btn-default'"> 
-            <i class="fa" ng-class="ob.pinned ? 'fa-hand-grab-o' : 'fa-hand-paper-o'"></i>
-        </button>
-        <button ng-click="toggleEdit()" ng-if="!editing" class="btn btn-default glyphicon glyphicon-edit">  </button>
-        <button ng-click="repost(true)" ng-if="editing" class="btn btn-default glyphicon glyphicon-ok"> </button>
-    </span>
-    <span class="input-group-btn" style="width:20%">
-        <input  class="form-control" type="number" placeholder="[[ ::ob.amount]]" ng-model=ob.amount> </input>
-    </span>
-    <span class="input-group-btn" style="width:0px;"></span>
-    <input  class="form-control col-md-10" type="text" placeholder="[[ ::ob.tag]]" ng-model=ob.tag> </input>
-    <span class="input-group-btn">
-        <button ng-click="repost()" ng-if="!editing" class="btn btn-default glyphicon glyphicon-repeat">  </button>
-        <button ng-click="toggleEdit()" ng-if="editing" class="btn btn-default glyphicon glyphicon-remove"> </button>
-    </span>
+<div class="panel-heading">
+    <h4 class="panel-title">
+        <button href ng-click="repost()" ng-if="!deleting" class="badge pull-left"><span class="fa fa-refresh"></span></button>
+        <button href ng-click="delete()" ng-if="deleting" class="badge badge-danger pull-left"><span style="color:red;" class="glyphicon glyphicon-trash"></span></button>
+        <a  data-toggle="collapse" data-parent="#expAccordian" href="#ob[[ ob.id ]]"> [[ ob.amount ]]-[[ ob.tag ]]</a>
+        <button href ng-click="deleting=!deleting" class="badge pull-right" ng-class="deleting ? 'bandge-warn': ''"><span class="glyphicon glyphicon-remove"></span></button>
+    </h4>
+</div>
+<div id="ob[[ ob.id ]]" class="panel-collapse collapse">
+    <div class="panel-body">
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button ng-click="repost(true)" class="btn btn-primary btn-lg"> <span class="glyphicon glyphicon-ok"></span></button>
+            </span>
+                <input class="form-control" type="number" ng-model="ob.amount" placeholder="[[ ::ob.amount ]]">
+                <input class="form-control" type="text" ng-model="ob.tag" placeholder="[[ ::ob.tag ]]">
+        </div>
+    </div>
 </div>
