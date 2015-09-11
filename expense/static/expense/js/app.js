@@ -7,6 +7,19 @@ angular.module('managerapp', [
 })
 .controller("expenseController",function($scope, $http){
     $scope.explist = {};
+    $scope.ser = "";
+    $scope.sum = function(obj, prop , initValue){
+        var ret = initValue || 0;
+        angular.forEach(obj, function(o){
+            if (prop && o.hasOwnProperty(prop)) {
+                ret = ret + o[prop];
+            }
+            else{
+                ret = ret + obj;
+            }
+        });
+        return ret;
+    };
     $http.get('/expense')
         .success(function(response){
             res = response.results;
