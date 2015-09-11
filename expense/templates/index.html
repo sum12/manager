@@ -23,8 +23,8 @@
     </head>
     <body class='container'>
             <div class='row jumbotron' ng-controller="expenseController">
-                <h4> <i class="fa fa-inr"></i>: [[ sum(res, 'amount') ]]</h4>
-                    <div ng-repeat="exp in explist | filter:ser as res">
+                <h4> <i class="fa fa-inr"></i>: [[ sum(explist, 'amount') ]]</h4>
+                    <div ng-repeat="(key,exp) in explist" >
                         <div expense ob="exp" update-parent="saveExpense(d, cb)"> </div>
                     </div>
             </div>
