@@ -7,9 +7,7 @@ angular.module('managerapp', [ ])
     $scope.explist = [];
     $scope.ser = "";
     $scope.parseDate = function(key){
-        console.log(key)
        var x =  -parseInt(key.dateAdded.split('-').join(''));
-       console.log(x);
        return x;
     };
     $scope.sum = function(obj, prop , initValue){
@@ -30,7 +28,6 @@ angular.module('managerapp', [ ])
             for(i=0; i<res.length; i++){
                 //$scope.explist[res[i].id] = res[i];
                 $scope.explist.push(res[i])
-                $scope.explist[i]['_id'] = i;
             }
             console.log("Got the data");
         })
@@ -46,7 +43,7 @@ angular.module('managerapp', [ ])
                     console.log("okay");
                     //console.log($scope.explist);
                     //console.log(data);
-                    $scope.explist.splice(data._id,1);
+                    $scope.explist.splice($scope.explist.indexOf(data),1);
                     if (!!cb)
                         cb(true);
                 })
@@ -65,8 +62,7 @@ angular.module('managerapp', [ ])
             url += '/'+data.id;
             conn = $http.patch(url,data)
                         .success(function(response){
-                            response._id = data._id
-                            $scope.explist[data._id] = response;
+                            $scope.explist[$scope.explist.indexOf(data)] = response;
                             //console.log(response);
                             console.log("okay");
                             if (!!cb)
@@ -76,7 +72,6 @@ angular.module('managerapp', [ ])
         else{
             conn = $http.post(url,data)
                         .success(function(response){
-                            response._id = $scope.explist.length;
                             $scope.explist.push(response)
                             //console.log(response);
                             console.log("okay");
@@ -108,7 +103,7 @@ angular.module('managerapp', [ ])
                 $('#ob'+$scope.ob.id ).collapse('hide');
             };
             $scope.repost = function(edit){
-                var dat = angular.copy($scope.ob);
+                var dat = $scope.ob;
                 var cb = undefined;
                 if(!!!edit){
                     delete(dat.id);
