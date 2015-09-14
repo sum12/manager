@@ -24,7 +24,11 @@
             <div class='row' ng-controller="expenseController">
                 <h4> <i class="fa fa-inr"></i>: [[ sum(explist, 'amount') ]]</h4>
                 <div id="expAccordian" class="panel-group">
-                    <div expense ob="exp" delete-parent="delExpense(d, cb)" update-parent="saveExpense(d, cb)"class="panel panel-default" ng-repeat="(key, exp) in explist"> </div>
+            <div expense ob="exp" class="panel panel-default" \
+                delete-parent="delExpense(d, cb)"\ 
+                update-parent="saveExpense(d, cb)"\
+                ng-repeat="exp in explist | orderBy : parseDate"> 
+            </div>
                 </div>
             </div>
 

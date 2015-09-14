@@ -4,8 +4,14 @@ angular.module('managerapp', [ ])
     $interpolateProvider.endSymbol(']]');
 })
 .controller("expenseController",function($scope, $http){
-    $scope.explist = {};
+    $scope.explist = [];
     $scope.ser = "";
+    $scope.parseDate = function(key){
+        console.log(key)
+       var x =  -parseInt(key.dateAdded.split('-').join(''));
+       console.log(x);
+       return x;
+    };
     $scope.sum = function(obj, prop , initValue){
         var ret = initValue || 0;
         angular.forEach(obj, function(o){
@@ -22,7 +28,9 @@ angular.module('managerapp', [ ])
         .success(function(response){
             res = response.results;
             for(i=0; i<res.length; i++){
-                $scope.explist[res[i].id] = res[i];
+                //$scope.explist[res[i].id] = res[i];
+                $scope.explist.push(res[i])
+                $scope.explist[i]['_id'] = i;
             }
             console.log("Got the data");
         })
@@ -34,17 +42,17 @@ angular.module('managerapp', [ ])
         if(data.hasOwnProperty('id')){
             url = '/expense/'+data.id;
             $http.delete(url)
-                .success(function(response){
+                .success(function(){
                     console.log("okay");
-                    delete($scope.explist[data.id]);
+                    //console.log($scope.explist);
+                    //console.log(data);
+                    $scope.explist.splice(data._id,1);
                     if (!!cb)
                         cb(true);
                 })
-                .error(function(error){
-                    console.log("data");
+                .error(function(){
+                    console.log("delete data Errored");
                     console.log(data);
-                    console.log("Error");
-                    console.log(error);
                     if (!!cb)
                         cb(false);
                 })
@@ -57,7 +65,9 @@ angular.module('managerapp', [ ])
             url += '/'+data.id;
             conn = $http.patch(url,data)
                         .success(function(response){
-                            $scope.explist[data.id] = response;
+                            response._id = data._id
+                            $scope.explist[data._id] = response;
+                            //console.log(response);
                             console.log("okay");
                             if (!!cb)
                                 cb(true);
@@ -66,7 +76,9 @@ angular.module('managerapp', [ ])
         else{
             conn = $http.post(url,data)
                         .success(function(response){
-                            $scope.explist[response.id] = response;
+                            response._id = $scope.explist.length;
+                            $scope.explist.push(response)
+                            //console.log(response);
                             console.log("okay");
                             if (!!cb)
                                 cb(true);
@@ -115,7 +127,7 @@ angular.module('managerapp', [ ])
                 $scope.updateParent({d:dat});
             };
             $scope.delete = function(){
-                $scope.deleteParent({d:{id:$scope.ob.id}}) 
+                $scope.deleteParent({d:$scope.ob}) 
             }
         },
         templateUrl: ANGULAR_TEMPLATE_PATH +"expense/tmpl/exp_tmpl.html",
