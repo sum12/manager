@@ -7,3 +7,5 @@ gunicorn==19.3.0
 ipython==3.2.1
 sqlparse==0.1.15
 wsgiref==0.1.2
+whitenoise
+psycopg2

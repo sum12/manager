@@ -84,6 +84,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'STATIC'
 
 
 REST_FRAMEWORK = {
@@ -128,3 +129,6 @@ LOGGING = {
         }
 
 
+if os.path.expanduser('~') != '/home/sumit':
+    import dj_database_url
+    DATABASES['default'] =  dj_database_url.config()
