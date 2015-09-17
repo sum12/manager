@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, render_to_response
 from django.http import HttpResponse,HttpResponseBadRequest,HttpResponseNotFound
 from django.contrib.auth import get_user_model
 import json
@@ -136,3 +136,11 @@ class DefaultsMixin(object):
 class ExpenseViewSet(DefaultsMixin, viewsets.ModelViewSet):
     queryset = Expenses.objects.all()
     serializer_class = ExpenseSerializer
+    search_fields = ("tag",)
+
+
+def expense_csv(request):
+    return render_to_response('exp.csv', {'expenses':Expenses.objects.filter(tag__contains="shared")}, content_type="text/csv")
+
+
+
