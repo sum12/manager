@@ -36,6 +36,7 @@ angular.module('managerapp', [ ])
             console.log(what);
         });
     $scope.delExpense = function(data, cb){
+        $scope.doing = true;
         if(data.hasOwnProperty('id')){
             url = '/expense/'+data.id;
             $http.delete(url)
@@ -46,18 +47,20 @@ angular.module('managerapp', [ ])
                     $scope.explist.splice($scope.explist.indexOf(data),1);
                     if (!!cb)
                         cb(true);
+                    $scope.doing = false;
                 })
                 .error(function(){
                     console.log("delete data Errored");
                     console.log(data);
                     if (!!cb)
                         cb(false);
+                    $scope.doing = false;
                 })
             }
-
     }
     $scope.saveExpense = function(data, cb){
         url = "/expense";
+        $scope.doing = true;
         if (data.hasOwnProperty('id')){
             url += '/'+data.id;
             conn = $http.patch(url,data)
@@ -67,6 +70,7 @@ angular.module('managerapp', [ ])
                             console.log("okay");
                             if (!!cb)
                                 cb(true);
+                        $scope.doing = false;
                         });
         }
         else{
@@ -77,6 +81,7 @@ angular.module('managerapp', [ ])
                             console.log("okay");
                             if (!!cb)
                                 cb(true);
+                        $scope.doing = false;
                         });
         }
         conn.error(function(error){
@@ -86,7 +91,9 @@ angular.module('managerapp', [ ])
                     console.log(error);
                     if (!!cb)
                         cb(false);
+                    $scope.doing = false;
                 })
+        $scope.doing = false;
     };
 })
 .directive("expense",function(){
