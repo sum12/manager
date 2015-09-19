@@ -82,7 +82,7 @@ angular.module('managerapp', [ ])
             conn = $http.post(url,data)
                         .success(function(response){
                             $scope.explist.push(response)
-                            //console.log(response);
+                            console.log(response);
                             console.log("okay");
                             if (!!cb)
                                 cb(true);
