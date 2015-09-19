@@ -71,7 +71,7 @@ angular.module('managerapp', [ ])
             conn = $http.patch(url,data)
                         .success(function(response){
                             $scope.explist[$scope.explist.indexOf(data)] = response;
-                            //console.log(response);
+                            console.log(response);
                             console.log("okay");
                             if (!!cb)
                                 cb(true);
