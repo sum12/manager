@@ -133,6 +133,8 @@ angular.module('managerapp', [ ])
                 $scope.updateParent({d:dat});
             };
             $scope.delete = function(){
+                console.log("sending data for delete");
+                console.log($scope.ob);
                 $scope.deleteParent({d:$scope.ob}) 
             }
         },
