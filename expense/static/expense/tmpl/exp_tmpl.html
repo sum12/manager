@@ -2,7 +2,7 @@
     <h4 class="panel-title">
         <button href ng-click="repost()" ng-if="!deleting" class="badge pull-left"><span class="fa fa-refresh"></span></button>
         <button href ng-click="delete()" ng-if="deleting" class="badge badge-danger pull-left"><span style="color:red;" class="glyphicon glyphicon-trash"></span></button>
-        <a  data-toggle="collapse" data-parent="#expAccordian" href="#ob[[ ob.id ]]"> [[ ob.amount ]]-[[ ob.tag ]]-[[ ob.id ]]</a>
+        <a  data-toggle="collapse" data-parent="#expAccordian" href="#ob[[ ob.id ]]"> [[ ob.amount ]]-[[ ob.tag ]]</a>
         <button href ng-click="deleting=!deleting" class="badge pull-right" ng-class="deleting ? 'bandge-warn': ''"><span class="glyphicon glyphicon-remove"></span></button>
     </h4>
 </div>

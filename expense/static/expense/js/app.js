@@ -117,6 +117,9 @@ angular.module('managerapp', [ ])
                 var dat = $scope.ob;
                 var cb = undefined;
                 if(!edit){
+                    // making a copy, removing from teh original one will make it unidentifiable in future
+                    // for edit as well and delete
+                    dat = angular.copy(dat);
                     delete(dat.id);
                 }
                 else{
