@@ -37,8 +37,10 @@ angular.module('managerapp', [ ])
         });
     $scope.delExpense = function(data, cb){
         $scope.doing = true;
+        console.log(data);
         if(data.hasOwnProperty('id')){
             url = '/expense/'+data.id;
+            console.log("making delete requeset");
             $http.delete(url)
                 .success(function(){
                     console.log("okay");
@@ -57,6 +59,9 @@ angular.module('managerapp', [ ])
                     $scope.doing = false;
                 })
             }
+        else{
+            console.log("unable to delete, Id not found");
+        }
     }
     $scope.saveExpense = function(data, cb){
         url = "/expense";
@@ -93,7 +98,6 @@ angular.module('managerapp', [ ])
                         cb(false);
                     $scope.doing = false;
                 })
-        $scope.doing = false;
     };
 })
 .directive("expense",function(){
