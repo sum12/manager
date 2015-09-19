@@ -47,14 +47,14 @@ angular.module('managerapp', [ ])
                     //console.log($scope.explist);
                     //console.log(data);
                     $scope.explist.splice($scope.explist.indexOf(data),1);
-                    if (!!cb)
+                    if (cb)
                         cb(true);
                     $scope.doing = false;
                 })
                 .error(function(){
                     console.log("delete data Errored");
                     console.log(data);
-                    if (!!cb)
+                    if (cb)
                         cb(false);
                     $scope.doing = false;
                 })
@@ -73,7 +73,7 @@ angular.module('managerapp', [ ])
                             $scope.explist[$scope.explist.indexOf(data)] = response;
                             console.log(response);
                             console.log("okay");
-                            if (!!cb)
+                            if (cb)
                                 cb(true);
                         $scope.doing = false;
                         });
@@ -84,7 +84,7 @@ angular.module('managerapp', [ ])
                             $scope.explist.push(response)
                             console.log(response);
                             console.log("okay");
-                            if (!!cb)
+                            if (cb)
                                 cb(true);
                         $scope.doing = false;
                         });
@@ -94,7 +94,7 @@ angular.module('managerapp', [ ])
                     console.log(data);
                     console.log("Error");
                     console.log(error);
-                    if (!!cb)
+                    if (cb)
                         cb(false);
                     $scope.doing = false;
                 })
@@ -116,7 +116,7 @@ angular.module('managerapp', [ ])
             $scope.repost = function(edit){
                 var dat = $scope.ob;
                 var cb = undefined;
-                if(!!!edit){
+                if(!edit){
                     delete(dat.id);
                 }
                 else{
@@ -140,4 +140,4 @@ angular.module('managerapp', [ ])
         },
         templateUrl: ANGULAR_TEMPLATE_PATH +"expense/tmpl/exp_tmpl.html",
     };
-});
+})
