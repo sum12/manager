@@ -139,12 +139,12 @@ class ExpenseViewSet(DefaultsMixin, viewsets.ModelViewSet):
     search_fields = ("tag",)
 
 
-def expense_csv(request,year=None,month=None,day=None):
+def expense_csv(request, year=None, month=None, day=None):
     qry = Expenses.objects.filter(tag__contains="shared")
-    if year: qry.filter(dateAdded__year=year)
-    if month: qry.filter(dateAdded__month=month)
-    if day: qry.filter(dateAdded__day=day)
-    return render_to_response('exp.csv', {'expenses': qry }, content_type="text/csv")
+    if year: qry=qry.filter(dateAdded__year=int(year))
+    if month: qry=qry.filter(dateAdded__month=int(month))
+    if day: qry=qry.filter(dateAdded__day=int(day))
+    return render_to_response('exp.csv', {'expenses': qry , "month":month, "day":day, "year":year, 't':type(day)}, content_type="text/plain")
 
 
 

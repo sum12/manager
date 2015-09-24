@@ -1,2 +1,2 @@
-{% for exp in expenses %}
+{% for exp in expenses %} 
 {{ exp.amount }}, {{ exp.tag }} {% endfor %}
