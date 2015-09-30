@@ -125,9 +125,9 @@ class DefaultsMixin(object):
     permission_classes = (
             #permissions.IsAuthenticated,
             )
-    paginate_by = 25
-    pagination_param = 'page_size'
-    max_paginate = 100
+#    paginate_by = 25
+#    pagination_param = 'page_size'
+#    max_paginate = 100
     filter_backends=(
             filters.SearchFilter,
             filters.OrderingFilter,
