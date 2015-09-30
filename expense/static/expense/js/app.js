@@ -24,7 +24,7 @@ angular.module('managerapp', [ ])
     };
     $http.get('/expense')
         .success(function(response){
-            res = response.results;
+            res = response;
             for(i=0; i<res.length; i++){
                 //$scope.explist[res[i].id] = res[i];
                 $scope.explist.push(res[i])
