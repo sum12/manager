@@ -131,7 +131,7 @@ LOGGING = {
 
 
 if os.path.expanduser('~') != '/home/sumit':
-    from local_setting import *
+    from local_settings import *
     import dj_database_url
     DATABASES['default'] =  dj_database_url.config()
 
