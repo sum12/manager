@@ -134,9 +134,20 @@ class DefaultsMixin(object):
             )
 
 class ExpenseViewSet(DefaultsMixin, viewsets.ModelViewSet):
-    queryset = Expenses.objects.all()
+
     serializer_class = ExpenseSerializer
     search_fields = ("tag",)
+
+    def get_queryset(self):
+        qry = Expenses.objects
+        year = self.kwargs.get('year')
+        month = self.kwargs.get('month')
+        day = self.kwargs.get('day')
+        if year: qry=qry.filter(dateAdded__year=int(year))
+        if month: qry=qry.filter(dateAdded__month=int(month))
+        if day: qry=qry.filter(dateAdded__day=int(day))
+        return qry.all()
+        
 
 
 def expense_csv(request, year=None, month=None, day=None):
