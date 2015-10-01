@@ -129,6 +129,8 @@ LOGGING = {
         }
 
 
+
 if os.path.expanduser('~') != '/home/sumit':
     import dj_database_url
+    STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
     DATABASES['default'] =  dj_database_url.config()
