@@ -2,7 +2,7 @@
     <h4 class="panel-title">
         <button href ng-click="repost()" ng-if="!deleting" class="badge pull-left"><span class="fa fa-refresh"></span></button>
         <button href ng-click="delete()" ng-if="deleting" class="badge badge-danger pull-left"><span style="color:red;" class="glyphicon glyphicon-trash"></span></button>
-        <a  data-toggle="collapse" data-parent="#expAccordian" href="#ob[[ ob.id ]]"> [[ ob.amount ]]-[[ ob.tag ]]</a>
+        <a data-toggle="collapse" data-parent="#expAccordian" href="#ob[[ ob.id ]]"> [[ ob.amount ]]-[[ ob.tags.join(',') ]]</a>
         <button href ng-click="deleting=!deleting" class="badge pull-right" ng-class="deleting ? 'bandge-warn': ''"><span class="glyphicon glyphicon-remove"></span></button>
     </h4>
 </div>
@@ -10,10 +10,24 @@
     <div class="panel-body">
         <div class="input-group">
             <span class="input-group-btn">
-                <button ng-click="repost(true)" class="btn btn-primary btn-lg"> <span class="glyphicon glyphicon-ok"></span></button>
+                <button ng-click="repost(true)" class="btn btn-primary "> <span class="glyphicon glyphicon-ok"></span></button>
             </span>
                 <input class="form-control" type="number" ng-model="ob.amount" placeholder="[[ ::ob.amount ]]">
-                <input class="form-control" type="text" ng-model="ob.tag" placeholder="[[ ::ob.tag ]]">
+                <!-- <input class="form-control" type="text" ng-model="ob.tag" placeholder="[[ ::ob.tag ]]"> -->
+        </div>
+
+        <div class="btn-group">
+            <button ng-repeat='t in taglist'  class="btn btn-default"
+                ng-class="{'active': ob.tags.indexOf(t)!=-1}"
+                ng-click="toggletag(t)">[[ t ]] </button>
+            <!-- <label data-toggle="button" ng-click="toggletag('now')" class="btn btn-default" >test</label> -->    
+        </div>
+
+        <div class="input-group">
+            <span class="input-group-btn">
+                <button href ng-click="toggletag(newtagvalue, true)" class="btn btn-default"> <span class="glyphicon glyphicon-plus"></span> </button>
+            </span>
+            <input ng-model="newtagvalue" class="form-control" type="text">
         </div>
     </div>
 </div>

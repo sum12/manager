@@ -25,7 +25,7 @@
                 <h4 ng-if="!doing"> <i class="fa fa-inr"></i>: [[ sum(explist, 'amount') ]]</h4>
                 <h4 ng-if="doing"> <i class="fa fa-spinner fa-pulse"></i></h4>
                 <div id="expAccordian" class="panel-group">
-            <div expense ob="exp" class="panel panel-default" \
+            <div expense ob="exp" taglist="taglist" class="panel panel-default" \
                 delete-parent="delExpense(d, cb)"\ 
                 update-parent="saveExpense(d, cb)"\
                 ng-repeat="exp in explist | orderBy : parseDate"> 

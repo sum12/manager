@@ -5,6 +5,7 @@ angular.module('managerapp', [ ])
 })
 .controller("expenseController",function($scope, $http){
     $scope.explist = [];
+    $scope.taglist = [];
     $scope.ser = "";
     $scope.parseDate = function(key){
        var x =  -parseInt(key.dateAdded.split('-').join(''));
@@ -28,8 +29,16 @@ angular.module('managerapp', [ ])
             res = response;
             for(i=0; i<res.length; i++){
                 //$scope.explist[res[i].id] = res[i];
-                $scope.explist.push(res[i])
+                $scope.explist.push(res[i]);
+                splitTags=res[i].tag.split(',');
+                res[i].tags=splitTags;
+                angular.forEach(splitTags, function(value){
+                    if ($scope.taglist.indexOf(value) == -1){
+                        $scope.taglist.push(value)
+                    }
+                });
             }
+            //console.log($scope.taglist);
             console.log("Got the data");
         })
         .error(function(what){
@@ -71,6 +80,7 @@ angular.module('managerapp', [ ])
             url += '/'+data.id;
             conn = $http.patch(url,data)
                         .success(function(response){
+                            response.tags = response.tag.split(',');
                             $scope.explist[$scope.explist.indexOf(data)] = response;
                             console.log(response);
                             console.log("okay");
@@ -106,6 +116,7 @@ angular.module('managerapp', [ ])
         retrict:'A',
         scope : {
             ob:"=",
+            taglist:"=",
             updateParent:"&",
             deleteParent:"&"
         },
@@ -130,6 +141,9 @@ angular.module('managerapp', [ ])
                         }
                     }
                 }
+                if ($scope.ob.tag != $scope.ob.tags.join(",")){
+                    dat.tag = $scope.ob.tags.join(",");
+                }
                 $scope.updateParent({d:dat, cb:cb});
             };
             $scope.pinIt = function(){
@@ -140,6 +154,19 @@ angular.module('managerapp', [ ])
                 console.log("sending data for delete");
                 console.log($scope.ob);
                 $scope.deleteParent({d:$scope.ob}) 
+            },
+            $scope.toggletag = function(tvalue, newtag){
+                var ind = $scope.ob.tags.indexOf(tvalue);
+                if ( ind == -1){
+                    $scope.ob.tags.push(tvalue);
+                    if(newtag && tvalue!=""){
+                        $scope.taglist.push(tvalue);
+                        $scope.newtagvalue='';
+                    }
+                }
+                else{
+                    $scope.ob.tags.splice(ind, 1);
+                }
             }
         },
         templateUrl: ANGULAR_TEMPLATE_PATH +"expense/tmpl/exp_tmpl.html",
