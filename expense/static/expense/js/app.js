@@ -85,7 +85,7 @@ angular.module('managerapp', [ ])
                         .success(function(response){
                             response.tags = response.tag.split(',');
                             $scope.explist[$scope.explist.indexOf(data)] = response;
-                            console.log(response);
+                            //console.log(response);
                             console.log("okay");
                             if (cb)
                                 cb(true);
@@ -95,8 +95,9 @@ angular.module('managerapp', [ ])
         else{
             conn = $http.post(url,data)
                         .success(function(response){
+                            response.tags = response.tag.split(',');
                             $scope.explist.push(response)
-                            console.log(response);
+                            //console.log(response);
                             console.log("okay");
                             if (cb)
                                 cb(true);
