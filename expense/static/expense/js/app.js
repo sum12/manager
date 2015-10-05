@@ -24,7 +24,10 @@ angular.module('managerapp', [ ])
         return ret;
     };
     var currentDate = new Date();
-    $http.get('/expense/'+currentDate.getFullYear()+'/'+(currentDate.getMonth()+1))
+    if(!YEAR) YEAR = currentDate.getFullYear();
+    if(!MONTH) MONTH = currentDate.getMonth()+1;
+    if(!DAY) DAY = currentDate.getDate();
+    $http.get('/expense/'+ YEAR+'/'+ MONTH)
         .success(function(response){
             res = response;
             for(i=0; i<res.length; i++){

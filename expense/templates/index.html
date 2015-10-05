@@ -8,7 +8,10 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <script type="text/javascript">
-            var ANGULAR_TEMPLATE_PATH = "{{ STATIC_URL }}";
+        var ANGULAR_TEMPLATE_PATH = "{{ STATIC_URL }}";
+        var YEAR = {{ year|default:0 }};
+        var MONTH = {{ month | default:0 }};
+        var DAY = {{ day | default:0 }};
         </script>
         <!-- inject:css -->
         <link rel="stylesheet" href="{% static "expense/css/fontawesome/scss/font-awesome.css" %}" />
