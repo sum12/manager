@@ -4,9 +4,6 @@ angular.module('managerapp', [ ])
     $interpolateProvider.endSymbol(']]');
 })
 .controller("expenseController",function($scope, $http){
-    $scope.explist = [];
-    $scope.taglist = [];
-    $scope.ser = "";
     $scope.parseDate = function(key){
        var x =  -parseInt(key.dateAdded.split('-').join(''));
        return x;
@@ -25,29 +22,36 @@ angular.module('managerapp', [ ])
     };
     var currentDate = new Date();
     if(!YEAR) YEAR = currentDate.getFullYear();
-    if(!MONTH) MONTH = currentDate.getMonth()+1;
-    if(!DAY) DAY = currentDate.getDate();
-    $http.get('/expense/'+ YEAR+'/'+ MONTH)
-        .success(function(response){
-            res = response;
-            for(i=0; i<res.length; i++){
-                //$scope.explist[res[i].id] = res[i];
-                $scope.explist.push(res[i]);
-                splitTags=res[i].tag.split(',');
-                res[i].tags=splitTags;
-                angular.forEach(splitTags, function(value){
-                    if ($scope.taglist.indexOf(value) == -1){
-                        $scope.taglist.push(value)
-                    }
-                });
-            }
-            //console.log($scope.taglist);
-            console.log("Got the data");
-        })
-        .error(function(what){
-            console.log('Fuck!!');
-            console.log(what);
-        });
+    if(!MONTH) MONTH = currentDate.getMonth();
+    if(!DAY) DAY = 1//currentDate.getDate();
+    $scope.pagedate = new Date(YEAR, MONTH , DAY)
+
+    $scope.reload = function(){
+        $scope.explist = [];
+        $scope.taglist = [];
+        $http.get('/expense/'+ $scope.pagedate.getFullYear() +'/'+ parseInt($scope.pagedate.getMonth()+1))
+            .success(function(response){
+                res = response;
+                $scope.explist = []
+                for(i=0; i<res.length; i++){
+                    //$scope.explist[res[i].id] = res[i];
+                    $scope.explist.push(res[i]);
+                    splitTags=res[i].tag.split(',');
+                    res[i].tags=splitTags;
+                    angular.forEach(splitTags, function(value){
+                        if ($scope.taglist.indexOf(value) == -1){
+                            $scope.taglist.push(value)
+                        }
+                    });
+                }
+                //console.log($scope.taglist);
+                console.log("Got the data");
+            })
+            .error(function(what){
+                console.log('Fuck!!');
+                console.log(what);
+            });
+    };
     $scope.delExpense = function(data, cb){
         $scope.doing = true;
         console.log(data);
@@ -75,7 +79,7 @@ angular.module('managerapp', [ ])
         else{
             console.log("unable to delete, Id not found");
         }
-    }
+    };
     $scope.saveExpense = function(data, cb){
         url = "/expense";
         $scope.doing = true;
@@ -114,6 +118,9 @@ angular.module('managerapp', [ ])
                     $scope.doing = false;
                 })
     };
+
+    $scope.reload();
+
 })
 .directive("expense",function(){
     return{
