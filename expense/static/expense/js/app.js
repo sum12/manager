@@ -29,6 +29,7 @@ angular.module('managerapp', [ ])
     $scope.reload = function(){
         $scope.explist = [];
         $scope.taglist = [];
+        $scope.doing = true;
         $http.get('/expense/'+ $scope.pagedate.getFullYear() +'/'+ parseInt($scope.pagedate.getMonth()+1))
             .success(function(response){
                 res = response;
@@ -45,11 +46,13 @@ angular.module('managerapp', [ ])
                     });
                 }
                 //console.log($scope.taglist);
+                $scope.doing = false;
                 console.log("Got the data");
             })
             .error(function(what){
                 console.log('Fuck!!');
                 console.log(what);
+                $scope.doing = false;
             });
     };
     $scope.delExpense = function(data, cb){
