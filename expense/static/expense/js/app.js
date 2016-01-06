@@ -1,4 +1,4 @@
-angular.module('managerapp', [ ])
+angular.module('managerapp', [ 'ui.bootstrap'])
 .config(function($interpolateProvider){
     $interpolateProvider.startSymbol('[[');
     $interpolateProvider.endSymbol(']]');
@@ -29,6 +29,7 @@ angular.module('managerapp', [ ])
     $scope.reload = function(){
         $scope.explist = [];
         $scope.taglist = [];
+        $scope.alerts = [];
         $scope.doing = true;
         $http.get('/expense/'+ $scope.pagedate.getFullYear() +'/'+ parseInt($scope.pagedate.getMonth()+1))
             .success(function(response){
@@ -47,6 +48,7 @@ angular.module('managerapp', [ ])
                 }
                 //console.log($scope.taglist);
                 $scope.doing = false;
+                $scope.alerts.push({'type':'success', 'msg':'Got It!!'})
                 console.log("Got the data");
             })
             .error(function(what){
@@ -103,9 +105,14 @@ angular.module('managerapp', [ ])
             conn = $http.post(url,data)
                         .success(function(response){
                             response.tags = response.tag.split(',');
-                            $scope.explist.push(response)
+                            var objdate = response.dateAdded.split('-');
+
+                            if ( (parseInt(objdate[0])) ==( $scope.pagedate.getFullYear() )
+                                && parseInt(objdate[1]) == $scope.pagedate.getMonth() + 1)
+                                $scope.explist.push(response)
                             //console.log(response);
                             console.log("okay");
+                            $scope.alerts.push({'type':'success', 'msg':'Got It!!'})
                             if (cb)
                                 cb(true);
                         $scope.doing = false;
@@ -120,6 +127,10 @@ angular.module('managerapp', [ ])
                         cb(false);
                     $scope.doing = false;
                 })
+    };
+
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
     };
 
     $scope.reload();
