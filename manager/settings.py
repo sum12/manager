@@ -126,6 +126,10 @@ LOGGING = {
                 'handlers': ['file'],
                 'level': 'DEBUG',
                 },
+            'daily': {
+                'handlers': ['file'],
+                'level': 'DEBUG',
+                },
             }
         }
 
