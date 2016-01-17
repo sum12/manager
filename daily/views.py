@@ -42,7 +42,7 @@ def getGraph(request, *args, **kwargs):
     plt.close()
     fig, ax= plt.subplots(1)
     activity_type = kwargs['activity_type']
-    obs = activity.objects.filter(type = activity_type)
+    obs = activity.objects.filter(type = activity_type).order_by('on')
     dates = []
     if activity_type == 'exercise':
         totals = []
