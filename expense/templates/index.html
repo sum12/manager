@@ -48,6 +48,7 @@
                 <div expense ob="exp" taglist="taglist" class="panel panel-default" \
                     delete-parent="delExpense(d, cb)"\ 
                     update-parent="saveExpense(d, cb)"\
+                    get-more-tags="additionalTags()"\
                     ng-repeat="exp in (filteredExplist = (explist | orderBy : parseDate | filter:filterWord))"> 
                 </div>
             </div>

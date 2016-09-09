@@ -20,6 +20,7 @@
             <button ng-repeat='t in taglist'  class="btn btn-default"
                 ng-class="{'active': ob.tags.indexOf(t)!=-1}"
                 ng-click="toggletag(t)">[[ t ]] </button>
+            <button ng-click="getMoreTags()" class="btn btn-default" > More ... </button>
             <!-- <label data-toggle="button" ng-click="toggletag('now')" class="btn btn-default" >test</label> -->    
         </div>
 

@@ -57,6 +57,39 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                 $scope.doing = false;
             });
     };
+    $scope.additionalTags = function(){
+        var year = $scope.pagedate.getFullYear(),
+            month = $scope.pagedate.getMonth();
+        if ($scope.pagedate.getMonth() == 0) {
+            year = year - 1;
+            month = 12;
+        }
+        $scope.doing = true;
+        $http.get('/expense/'+ parseInt(year) +'/'+ parseInt(month))
+            .success(function(response){
+                res = response;
+                for(i=0; i<res.length; i++){
+                    //$scope.explist[res[i].id] = res[i];
+                    splitTags=res[i].tag.split(',');
+                    res[i].tags=splitTags;
+                    angular.forEach(splitTags, function(value){
+                        if ($scope.taglist.indexOf(value) == -1){
+                            $scope.taglist.push(value)
+                        }
+                    });
+                }
+                //console.log($scope.taglist);
+                $scope.doing = false;
+                $scope.alerts.push({'type':'success', 'msg':'Got It!!'})
+                console.log("Got the data");
+            })
+            .error(function(what){
+                console.log('Fuck!!');
+                console.log(what);
+                $scope.doing = false;
+            });
+        
+    }
     $scope.delExpense = function(data, cb){
         $scope.doing = true;
         console.log(data);
@@ -143,7 +176,8 @@ angular.module('managerapp', [ 'ui.bootstrap'])
             ob:"=",
             taglist:"=",
             updateParent:"&",
-            deleteParent:"&"
+            deleteParent:"&",
+            getMoreTags:"&"
         },
         controller:function($scope){
             $scope.deleting = false;
