@@ -37,6 +37,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                 $scope.explist = []
                 for(i=0; i<res.length; i++){
                     //$scope.explist[res[i].id] = res[i];
+                    res[i].objdateAdded = new Date(res[i].dateAdded)
                     $scope.explist.push(res[i]);
                     splitTags=res[i].tag.split(',');
                     res[i].tags=splitTags;

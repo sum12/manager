@@ -1,6 +1,7 @@
 <div class="panel-heading">
     <h4 class="panel-title">
-        <button href ng-click="repost()" ng-if="!deleting" class="badge pull-left"><span class="fa fa-refresh"></span></button>
+        <label class="pull-left">[[ ::['Su','Mo','Tu','We','Th','Fr','Sa'][ob.objdateAdded.getDay()] ]],[[ ::ob.objdateAdded.getDate()]]:</label>    
+        <button href ng-click="repost()" ng-if="!deleting" class="badge"><span class="fa fa-refresh"></span></button>
         <button href ng-click="delete()" ng-if="deleting" class="badge badge-danger pull-left"><span style="color:red;" class="glyphicon glyphicon-trash"></span></button>
         <a data-toggle="collapse" data-parent="#expAccordian" href="#ob[[ ob.id ]]"> [[ ob.amount ]]-[[ ob.tags.join(',') ]]</a>
         <button href ng-click="deleting=!deleting" class="badge pull-right" ng-class="deleting ? 'bandge-warn': ''"><span class="glyphicon glyphicon-remove"></span></button>
