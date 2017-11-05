@@ -31,7 +31,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
         $scope.taglist = [];
         $scope.alerts = [];
         $scope.doing = true;
-        $http.get('/expense/'+ $scope.pagedate.getFullYear() +'/'+ parseInt($scope.pagedate.getMonth()+1))
+        $http.get('/expenses/'+ $scope.pagedate.getFullYear() +'/'+ parseInt($scope.pagedate.getMonth()+1))
             .success(function(response){
                 res = response;
                 $scope.explist = []
@@ -66,7 +66,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
             month = 12;
         }
         $scope.doing = true;
-        $http.get('/expense/'+ parseInt(year) +'/'+ parseInt(month))
+        $http.get('/expenses/'+ parseInt(year) +'/'+ parseInt(month))
             .success(function(response){
                 res = response;
                 for(i=0; i<res.length; i++){
