@@ -143,7 +143,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
 
                             if ( (parseInt(objdate[0])) ==( $scope.pagedate.getFullYear() )
                                 && parseInt(objdate[1]) == $scope.pagedate.getMonth() + 1) {
-                                response.objdateAdded = new Date(res[i].dateAdded);
+                                response.objdateAdded = new Date(response.dateAdded);
                                 $scope.explist.push(response);
                             }
                             //console.log(response);
