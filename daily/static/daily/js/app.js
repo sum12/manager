@@ -62,7 +62,7 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
         controller:function($scope, $http){
             $scope.saving = true;
             $scope.newtask = {}; //because ng-if and ng-model dont work well togther,
-            $scope.befores = {}; 
+            $scope.befores = []; 
             $scope.ob = {};
             $scope.ob.id = null;
             $scope.ob.type = $scope.type;
