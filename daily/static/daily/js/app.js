@@ -12,7 +12,7 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
         $http.get($scope.baseurl)
             .success(function(response){
                 res = response;
-                console.log(res)
+                //console.log(res)
                 $scope.dailies = []
                 $scope.tasks = []
                 for(i=0; i<res.length; i++){
@@ -24,7 +24,7 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
                 //console.log($scope.taglist);
                 $scope.doing = false;
                 $scope.alerts.push({'type':'success', 'msg':'Got It!!'})
-                console.log("Got the data");
+                //console.log("Got the data");
             })
             .error(function(what){
                 console.log('Fuck!!');
@@ -62,15 +62,36 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
         controller:function($scope, $http){
             $scope.saving = true;
             $scope.newtask = {}; //because ng-if and ng-model dont work well togther,
-            $scope.befores = []; 
+            $scope.donedates = []; 
+            $scope.maxdates = [];
+            $scope.todaydate = new Date()
+            for (i=7;i>0;i--){
+                dt = new Date();
+                dt.setDate($scope.todaydate.getDate()- i);
+                $scope.maxdates.push({
+                    dtstr : dt.toDateString(),
+                    date: dt.getDate()
+                });
+            }
             $scope.ob = {};
             $scope.ob.id = null;
             $scope.ob.type = $scope.type;
-            $scope.ob.donetoday = false
+            $scope.ob.donetoday = false;
+
+
+            $scope.doneOn = function(dt){
+                for (i=0;i<$scope.donedates.length;i++){
+                    if ($scope.donedates[i].dtstr === dt.dtstr){
+                        return true;
+                    }
+                }
+                return false;
+            }
 
             $scope.get = function(){
                 if ( $scope.type === 'dummy' ){
-                    return
+                    $scope.saving = false;
+                    return 0;
                 }
                 $scope.saving = true;
                 url = $scope.baseurl + "?search=" + $scope.ob.type;
@@ -78,18 +99,23 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
                         .success(function(res){
                             $scope.saving = false;
                             for (i=0; i<res.length;i++){
-                                if ( res[i].donetoday === true ){
+                                ondate = new Date(res[i].on)
+                                if ($scope.todaydate.toDateString() ===  ondate.toDateString()){
+                                    $scope.ob.donetoday = true;
                                     $scope.ob.id = res[i].id;
-                                    $scope.befores.push(res[i].daysbefore)
-                                    $scope.ob.donetoday = res[i].donetoday;
-                                    console.log($scope.ob)
                                 }
+                                $scope.donedates.push({
+                                    dtstr : ondate.toDateString(),
+                                    date: ondate.getDate()
+                                })
+                                //console.log("inside")
                             }
+                            //console.log($scope.ob.type,$scope.donedates, res)
                         })
             }
 
             $scope.toggle = function(){
-                if ($scope.ob.donetoday !== true) {
+                if ($scope.ob.id === null) {
                     posttype = $scope.ob.type;
                     if ( $scope.type === "dummy"){
                         posttype = $scope.newtask.type;
@@ -99,39 +125,39 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
                         }
                     }
                     data = { "type": posttype}
-                    console.log(data)
+                    //console.log(data)
                     $scope.saving = true;
                     conn = $http.post($scope.baseurl,data)
                             .success(function(response){
                                 $scope.saving = false;
                                 if ($scope.type !== 'dummy') {
-                                    $scope.ob.type = posttype
-                                    $scope.ob.id = response.id
-                                    $scope.ob.donetoday = response.donetoday
+                                    $scope.ob.type = posttype;
+                                    $scope.ob.id = response.id;
+                                    $scope.ob.donetoday = $scope.todaydate.toDateString() ==  new Date(response.on).toDateString();
                                 }
                                 else{
                                     $scope.newtypeadded({type:posttype});
                                     $scope.newtask.type = '';
                                 }
-                                console.log(response);
-                            console.log("okay");
+                                //console.log(response);
+                                //console.log("okay");
                         });
                 }
                 else{
-                    delurl = $scope.baseurl + '/'+ $scope.ob.id
+                    delurl = $scope.baseurl + '/'+ $scope.ob.id;
                     conn = $http.delete(delurl)
                         .success(function(){
                             $scope.saving = false;
                             $scope.ob = {};
                             $scope.ob.id = null;
                             $scope.ob.type = $scope.type;
-                            $scope.ob.donetoday = false
-                            console.log("okay");
+                            $scope.ob.donetoday = false;
+                            //console.log("okay");
                         });
 
                 }
             }
-            $scope.get()
+            $scope.get();
         },
         templateUrl: ANGULAR_TEMPLATE_PATH +"daily/tmpl/task_tmpl.html",
     };

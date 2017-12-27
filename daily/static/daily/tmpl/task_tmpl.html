@@ -1,20 +1,27 @@
 <div class="panel-heading">
-    <h4 class="panel-title">
-        <a data-toggle="collapse" data-parent="#tskAccordian" href="#ob[[ ob.id ]]"
-            ng-if="ob.type != 'dummy'" > [[ ob.type ]]</a>
-        <input ng-if="ob.type == 'dummy'" ng-model=newtask.type ></input>    
-
-        <button href ng-click="toggle()" ng-enabled=!saving
+    <h2 class="panel-title">
+        <div >
+            <a data-toggle="collapse" data-parent="#tskAccordian" href="#ob[[ ob.type ]]" ng-if="ob.type != 'dummy'" > [[ ob.type ]]</a>
+            <input ng-if="ob.type == 'dummy'" ng-model=newtask.type ></input>    
+        <button href ng-click="toggle()" ng-enabled="!saving"
             class="pull-right"
-            ng-class="ob.donetoday ? 'btn btn-sm btn-success' : 'btn btn-sm btn-default'" >
-            [[ob.donetoday ? 'Done Today :)': 'Not Yet :(']] </button>
-    </h4>
+            ng-class="ob.donetoday ? 'btn btn-sm btn-success' : 'btn btn-sm btn-primary'" >
+            <h2 ng-if="!saving" class="label"> [[ob.donetoday ? 'Done :)': (ob.type == 'dummy'? 'New' : 'Nope :(') ]]</h4>
+            <h2 ng-if="saving" class="label"> <i class="fa fa-refresh fa-spin fa-fw"></i></h4>
+        </button>
+        </div>
+            <h4 data-toggle="collapse" data-parent="#tskAccordian" href="#ob[[ ob.type ]]"
+                class="label" ng-if="ob.type != 'dummy'"
+                ng-class="doneOn(i) ? 'label-success':'label-default'"
+                ng-repeat="i in maxdates"> [[ i.date ]]
+            </h4>
+    </h2>
     <div class="clearfix"></div>
 </div>
-<div id="ob[[ob.id]]" class="panel-collapse collapse">
+<div id="ob[[ob.type]]" class="panel-collapse collapse">
     <div class="panel-body">
         <h4 class="label label-success">
-            Nothing ;)
+            Nothing ;
         </h4>
     </div>
 </div>
