@@ -33,8 +33,14 @@ class DefaultsMixin(object):
 
 class DailyActivityViewSet(DefaultsMixin, viewsets.ModelViewSet):
     serializer_class = ActivitySerializer
-    queryset = activity.objects.all()
     search_fields = ("type",)
+
+    def get_queryset(self):
+        until = dt.datetime.today() - dt.timedelta(days=7)
+        qry = activity.objects
+        qry = qry.filter(on__gte=until)
+        return qry.all()
+
 
 
 

@@ -1,0 +1,56 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html ng-app="dailyapp">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Daily Board</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript">
+        var ANGULAR_TEMPLATE_PATH = "{{ STATIC_URL }}";
+        </script>
+        <!-- inject:css -->
+        <!-- endinject -->
+
+        <!-- bower:css -->
+        <link rel="stylesheet" href="{% static "../static/expense/bower_components/bootstrap/dist/css/bootstrap.css" %}" />
+        <link rel="stylesheet" href="{% static "../static/expense/bower_components/fontawesome/css/font-awesome.css" %}" />
+        <!-- endbower -->
+
+    </head>
+    <body class='container'>
+    <div ng-controller="dailyController">
+        <div class="row">
+            <div class="pull-right" >
+                <div >
+                    <h4 ng-if="!doing" class="pull-left" align="center">Loaded !</h4>
+                    <h4 ng-if="doing" class="pull-left" align="center"> <i class="fa fa-spinner fa-pulse"></i></h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div id="tskAccordian" class="panel-group">
+                <div task type="t" baseurl="baseurl" class="panel panel-default" ng-repeat="t in tasks"> </div>
+                <div task type="dummytype" baseurl="baseurl" newtypeadded="newtaskadded(type)" newtypeallowed="newtaskallowed(type)" class="panel panel-default" > </div>
+            </div>
+        </div>
+        
+        <alert ng-repeat="alert in alerts" style="position: fixed; z-index: 9999; bottom: 20px; right: 20px; width: 300px;" 
+        dismiss-on-timeout=2000 
+        close="closeAlert($index)"
+        type="[[alert.type]]" > [[alert.msg]] </alert>
+    </div>
+
+        <!-- bower:js -->
+        <script src="{% static "../static/expense/bower_components/angular/angular.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/expense/bower_components/angular-bootstrap/ui-bootstrap-tpls.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/expense/bower_components/jquery/dist/jquery.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/expense/bower_components/bootstrap/dist/js/bootstrap.js" %}" type="text/javascript" charset="utf-8"></script>
+        <!-- endbower -->
+
+        <!-- inject:js -->
+        <script src="{% static "daily/js/app.js" %}" type="text/javascript" charset="utf-8"></script>
+        <!-- endinject -->
+    </body>
+</html>
