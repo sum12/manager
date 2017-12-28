@@ -9,6 +9,11 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
         $scope.alerts = [];
         $scope.dummytype = "dummy";
         $scope.baseurl = "/daily";
+
+            $scope.caloptions = {
+               minDate: new Date(),
+               showWeeks: true
+             };
         $http.get($scope.baseurl)
             .success(function(response){
                 res = response;
@@ -65,6 +70,12 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
             $scope.donedates = []; 
             $scope.maxdates = [];
             $scope.todaydate = new Date()
+            $scope.caloptions = {
+               minDate: new Date(),
+               showWeeks: true
+             };
+
+
             for (i=7;i>0;i--){
                 dt = new Date();
                 dt.setDate($scope.todaydate.getDate()- i);
@@ -145,6 +156,7 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
                 }
                 else{
                     delurl = $scope.baseurl + '/'+ $scope.ob.id;
+                    $scope.saving = true;
                     conn = $http.delete(delurl)
                         .success(function(){
                             $scope.saving = false;
