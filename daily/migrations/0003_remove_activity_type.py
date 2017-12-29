@@ -2,20 +2,17 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import django.utils.timezone
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('daily', '0001_initial'),
+        ('daily', '0002_auto_20171229_1517'),
     ]
 
     operations = [
-        migrations.AlterField(
+        migrations.RemoveField(
             model_name='activity',
-            name='on',
-            field=models.DateTimeField(default=django.utils.timezone.now),
-            preserve_default=True,
+            name='type',
         ),
     ]
