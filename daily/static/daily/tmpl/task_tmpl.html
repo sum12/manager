@@ -1,30 +1,42 @@
-<div class="panel-heading">
-    <h2 class="panel-title">
-        <div >
-            <a data-toggle="collapse" data-parent="#tskAccordian" href="#ob[[ ob.type ]]" ng-if="ob.type != 'dummy'" > [[ ob.type ]]</a>
-            <input ng-if="ob.type == 'dummy'" ng-model=newtask.type ></input>    
-        <button href ng-click="toggle()" ng-enabled="!saving"
-            class="pull-right"
-            ng-class="ob.donetoday ? 'btn btn-sm btn-success' : 'btn btn-sm btn-primary'" >
-            <h2 ng-if="!saving" class="label"> [[ob.donetoday ? 'Done :)': (ob.type == 'dummy'? 'New' : 'Nope :(') ]]</h4>
-            <h2 ng-if="saving" class="label"> <i class="fa fa-refresh fa-spin fa-fw"></i></h4>
-        </button>
-        </div>
-            <h4 data-toggle="collapse" data-parent="#tskAccordian" href="#ob[[ ob.type ]]"
-                class="label" ng-if="ob.type != 'dummy'"
-                ng-class="doneOn(i) ? 'label-success':'label-default'"
-                ng-repeat="i in maxdates"> [[ i.date ]]
-            </h4>
-    </h2>
-    <div class="clearfix"></div>
-</div>
-<div id="ob[[ob.type]]" class="panel-collapse collapse">
-    <div class="panel-body">
-        <h4 class="label label-success">
-            Nothing ;
-        </h4>
-        <div style="display:inline-block; min-height:290px;">
-             <datepicker ng-model="caldate"  show-weeks="true" class="well well-sm"></datepicker>
-        </div>
+<style>
+  .full button span {
+    background-color: limegreen;
+    border-radius: 32px;
+    color: black;
+  }
+  .partially button span { background-color: orange; border-radius: 32px;
+    color: black;
+  }
+</style>
+    <div class="panel-heading">
+        <h2 class="panel-title">
+                <div >
+                <a data-toggle="collapse" data-parent="#tskAccordian" href="#ob[[ ob.daily.order ]]"> [[ ob.daily.type ]]</a>
+              <div  datepicker-popup="{{format}}" ng-model="caldate" is-open="opened"  ng-model="caldate"  custom-class= "getDayClass(date, mode)" close-text="Close" />
+                  <div class=" pull-right btn-group">
+                        <button class="btn-group btn-group-sm btn btn-sm btn-default" ng-click="opened=!bool(opened)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        <button href ng-click="toggle()" ng-disabled="saving" class="btn-group btn-group-sm btn btn-sm btn-sm"
+                            ng-class="ob.donetoday ? 'btn-success' : 'btn-primary'" >
+                                <h2 ng-if="!saving" class="label"> [[ob.donetoday ? 'Done :)': 'Nope :(' ]]</h4>
+                                <h2 ng-if="saving" class="label"> <i class="fa fa-refresh fa-spin fa-fw"></i></h4>
+                        </button>
+                  </div>
+            </div>
+                    <h4 data-toggle="collapse" data-parent="#tskAccordian"
+                        href="#ob[[ ob.daily.order ]]"
+                        class="label"
+                        ng-class="doneOn(i) ? 'label-success':'label-default'"
+                        ng-repeat="i in maxdates"> [[ i.date ]]
+                    </h4>
+        </h2>
+        <div class="clearfix"></div>
     </div>
+    <div id="ob[[ob.daily.order]]" class="panel-collapse collapse ">
+        <div class="panel-body">
+                <button class="btn btn-default" ng-click="swaporder(ob.daily) " ng-disabled="ob.daily.order==0">
+                    <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                    Move Up
+                </button>
+        <div class="clearfix"></div>
 </div>
+

@@ -1,0 +1,22 @@
+<div class="panel-heading">
+    <h2 class="panel-title">
+        <div >
+            <input ng-model=newtask.type ></input>    
+        <button href ng-click="createtask()"
+            ng-enabled="!saving"
+            class="pull-right btn btn-sm btn-primary" >
+            <h4 ng-if="!saving" class="label">New</h4>
+            <h4 ng-if="saving" class="label">
+                <i class="fa fa-refresh fa-spin fa-fw"></i></h4>
+        </button>
+        </div>
+    </h2>
+    <div class="clearfix"></div>
+</div>
+<div class="panel-collapse collapse">
+    <div class="panel-body">
+        <h4 class="label label-success">
+            Nothing ;
+        </h4>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import activity
-from .serializers import ActivitySerializer
+from .models import activity, typeorder
+from .serializers import ActivitySerializer, TypeOrderSerializer
 from rest_framework import viewsets, authentication, permissions, filters
 
 import cStringIO
@@ -27,7 +27,7 @@ class DefaultsMixin(object):
 
 class DailyActivityViewSet(DefaultsMixin, viewsets.ModelViewSet):
     serializer_class = ActivitySerializer
-    search_fields = ("type",)
+    search_fields = ("type_order__type",)
 
     def get_queryset(self):
         until = dt.datetime.today() - dt.timedelta(days=7)
@@ -35,3 +35,8 @@ class DailyActivityViewSet(DefaultsMixin, viewsets.ModelViewSet):
         qry = qry.filter(on__gte=until)
         return qry.all()
 
+
+class TypeViewSet(DefaultsMixin, viewsets.ModelViewSet):
+    serializer_class = TypeOrderSerializer
+    queryset = typeorder.objects.all()
+    search_fields = ("type",)

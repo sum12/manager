@@ -17,7 +17,7 @@ def copy_typestotypeoder(apps, schema_editor):
         tos += [(type, to)]
 
     for act in activity.objects.all():
-        act.type_id = [to[1] for to in tos if to[0] == act.type][0]
+        act.type_order = [to[1] for to in tos if to[0] == act.type][0]
         act.type = ''
         act.save()
 
