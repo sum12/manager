@@ -7,36 +7,44 @@
   .partially button span { background-color: orange; border-radius: 32px;
     color: black;
   }
+.label-as-badge {
+    border-radius: 1em;
+}
 </style>
-    <div class="panel-heading">
+<div class="panel-heading">
+    <div >
         <h2 class="panel-title">
-                <div >
-                <a data-toggle="collapse" data-parent="#tskAccordian" href="#ob[[ ob.daily.order ]]"> [[ ob.daily.type ]]</a>
-              <div  datepicker-popup="{{format}}" ng-model="caldate" is-open="opened"  ng-model="caldate"  custom-class= "getDayClass(date, mode)" close-text="Close" />
-                  <div class=" pull-right btn-group">
-                        <button class="btn-group btn-group-sm btn btn-sm btn-default" ng-click="opened=!bool(opened)"><i class="glyphicon glyphicon-calendar"></i></button>
-                        <button href ng-click="toggle()" ng-disabled="saving" class="btn-group btn-group-sm btn btn-sm btn-sm"
-                            ng-class="ob.donetoday ? 'btn-success' : 'btn-primary'" >
-                                <h2 ng-if="!saving" class="label"> [[ob.donetoday ? 'Done :)': 'Nope :(' ]]</h4>
-                                <h2 ng-if="saving" class="label"> <i class="fa fa-refresh fa-spin fa-fw"></i></h4>
-                        </button>
-                  </div>
-            </div>
-                    <h4 data-toggle="collapse" data-parent="#tskAccordian"
+            <div>
+                <button class="btn btn-default btn-sm"  ng-click="swaporder(ob.daily, -1)"  ng-disabled="$parent.$first">
+                    <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+                </button>
+                 <a data-toggle="collapse" data-parent="#tskAccordian" href="#ob[[ ob.daily.order ]]"> [[ ob.daily.type ]]</a>
+                 <div class=" pull-right btn-group-vertical">
+                     <button class="btn-group btn-group-sm btn btn-sm btn-default" ng-click="opened=!bool(opened)"><i class="glyphicon glyphicon-calendar"></i></button>
+                     <button href ng-click="toggle()" ng-disabled="saving" class="btn-group btn-group-sm btn btn-sm btn-sm"
+                         ng-class="ob.donetoday ? 'btn-success' : 'btn-primary'" >
+                         <h2 ng-if="!saving" class="label label"> [[ob.donetoday ? 'Done :)': 'Nope :(' ]]</h4>
+                         <h2 ng-if="saving" class="label label"> <i class="fa fa-refresh fa-spin fa-fw"></i></h4>
+                     </button>
+                 </div>
+                <div>
+                    <button class="btn btn-default btn-sm" ng-click="swaporder(ob.daily, 1)"  ng-disabled="$parent.$last">
+                        <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+                    </button>
+                    <div data-toggle="collapse" data-parent="#tskAccordian"
                         href="#ob[[ ob.daily.order ]]"
-                        class="label"
+                        class="label "
                         ng-class="doneOn(i) ? 'label-success':'label-default'"
-                        ng-repeat="i in maxdates"> [[ i.date ]]
-                    </h4>
+                        ng-repeat="i in maxdates"> [[ i.date]]
+                    </div>
+                </div>
+            </div>
+            <div datepicker-popup="{{format}}" ng-model="caldate" is-open="opened"  ng-model="caldate"  custom-class= "getDayClass(date, mode)" close-text="Close" />
         </h2>
         <div class="clearfix"></div>
     </div>
-    <div id="ob[[ob.daily.order]]" class="panel-collapse collapse ">
-        <div class="panel-body">
-                <button class="btn btn-default" ng-click="swaporder(ob.daily) " ng-disabled="ob.daily.order==0">
-                    <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
-                    Move Up
-                </button>
-        <div class="clearfix"></div>
+</div>
+<div id="ob[[ob.daily.order]]" class=" panel-collapse collapse">
+    <div class=" panel-body">
 </div>
 

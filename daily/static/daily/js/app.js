@@ -55,12 +55,12 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
         $scope.dailies[daily.order] = daily;
     }
 
-    $scope.swapdailies = function(daily){
-        withdaily = $scope.dailies[daily.order-1]
+    $scope.swapdailies = function(daily, direction){
+        withdaily = $scope.dailies[daily.order+direction]
         $scope.dailies[withdaily.order] = daily;
         $scope.dailies[daily.order] = withdaily;
-        withdaily.order += 1
-        daily.order -= 1
+        withdaily.order -= direction
+        daily.order += direction
         withdaily.dirty_order = true
         daily.dirty_order = true
         $scope.dirty_order = true
@@ -94,8 +94,8 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
             $scope.newtask = {}; //because ng-if and ng-model dont work well togther,
             $scope.donedates = []; 
             $scope.maxdates = [];
-            $scope.todaydate = new Date()
-            $scope.caldate = new Date(2017,11,5)
+            $scope.todaydate = new Date();
+            $scope.caldate = new Date();
 
             $scope.getDayClass = function(date,mode){
                 console.log(date)
