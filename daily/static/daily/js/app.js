@@ -16,7 +16,7 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
                             'type':'success', 
                             'msg':'Order Update done:' + daily.type})
                             }}(daily)).error(function(respose){
-                                $scope.alerts.push({'type':'error', 'msg':'Order Update Failed:'})
+                                $scope.alerts.push({'type':'danger', 'msg':'Order Update Failed:'})
                             });
                 }
             $q.all(cons).then(function(){
@@ -35,13 +35,34 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
             .success(function(response){
                 res = response;
                 //console.log(res)
+                var wrongorder = []
                 $scope.dailies = []
-                for(i=0; i<res.length; i++){
-                    $scope.dailies[res[i].order] = res[i];
+                for(var i=0; i<res.length; i++){
+                    if ($scope.dailies[res[i].order] !== undefined){
+                        $scope.alerts.push({'type':'danger',
+                            'msg': res[i].order + '.' + res[i].type +
+                            " order collides with " +
+                            $scope.dailies[res[i].order].order + '.' +$scope.dailies[res[i].order].type });
+                        wrongorder.push(res[i]);
+                    }
+                    else
+                        $scope.dailies[res[i].order] = res[i];
                 }
-                //console.log($scope.taglist);
+                var cn = 0
+                for(var i=0; i<wrongorder.length; i++){
+                    while ($scope.dailies[cn] !== undefined)
+                        cn++;
+                    daily = wrongorder[i];
+                    daily.order = cn;
+                    daily.dirty_order = true;
+                    $scope.dirty_order = true;
+                    $scope.dailies[cn] = daily;
+                    $scope.alerts.push({'type':'success', 'msg': daily.type + ' was given order ' + cn + ', Save it !!!'});
+                }
+                console.log($scope.dailies);
                 $scope.doing = false;
-                $scope.alerts.push({'type':'success', 'msg':'Got It!!'})
+                if (wrongorder.length == 0 )
+                    $scope.alerts.push({'type':'success', 'msg':'Got It!!'})
                 //console.log("Got the data");
             })
             .error(function(what){
