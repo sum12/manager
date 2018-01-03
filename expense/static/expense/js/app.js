@@ -39,9 +39,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                     //$scope.explist[res[i].id] = res[i];
                     res[i].objdateAdded = new Date(res[i].dateAdded)
                     $scope.explist.push(res[i]);
-                    splitTags=res[i].tag.split(',');
-                    res[i].tags=splitTags;
-                    angular.forEach(splitTags, function(value){
+                    angular.forEach(res[i].tags, function(value){
                         if ($scope.taglist.indexOf(value) == -1){
                             $scope.taglist.push(value)
                         }
@@ -49,8 +47,22 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                 }
                 //console.log($scope.taglist);
                 $scope.doing = false;
-                $scope.alerts.push({'type':'success', 'msg':'Got It!!'})
+                $scope.alerts.push({'type':'success', 'msg':'Got Expenses!!'})
                 console.log("Got the data");
+            })
+            .error(function(what){
+                console.log('Fuck!!');
+                console.log(what);
+                $scope.doing = false;
+            });
+
+        $http.get('/expense/tagsums?from='+ ( currentDate.getDate()-1 ))
+            .success(function(response){
+                $scope.tagsums = response;
+                //console.log($scope.taglist);
+                $scope.doing = false;
+                $scope.alerts.push({'type':'success', 'msg':'Got Tag Based Totals!!'})
+                console.log("Got the tagdata");
             })
             .error(function(what){
                 console.log('Fuck!!');
@@ -71,9 +83,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                 res = response;
                 for(i=0; i<res.length; i++){
                     //$scope.explist[res[i].id] = res[i];
-                    splitTags=res[i].tag.split(',');
-                    res[i].tags=splitTags;
-                    angular.forEach(splitTags, function(value){
+                    angular.forEach(res[i].tags, function(value){
                         if ($scope.taglist.indexOf(value) == -1){
                             $scope.taglist.push(value)
                         }
@@ -126,7 +136,6 @@ angular.module('managerapp', [ 'ui.bootstrap'])
             url += '/'+data.id;
             conn = $http.patch(url,data)
                         .success(function(response){
-                            response.tags = response.tag.split(',');
                             $scope.explist[$scope.explist.indexOf(data)] = response;
                             //console.log(response);
                             console.log("okay");
@@ -138,7 +147,6 @@ angular.module('managerapp', [ 'ui.bootstrap'])
         else{
             conn = $http.post(url,data)
                         .success(function(response){
-                            response.tags = response.tag.split(',');
                             var objdate = response.dateAdded.split('-');
 
                             if ( (parseInt(objdate[0])) ==( $scope.pagedate.getFullYear() )
@@ -178,6 +186,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
         scope : {
             ob:"=",
             taglist:"=",
+            tagsums:"=",
             updateParent:"&",
             deleteParent:"&",
             getMoreTags:"&"

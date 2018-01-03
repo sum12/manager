@@ -15,6 +15,15 @@ class Expenses(models.Model):
     tag = models.CharField(max_length=100, default=None)
     pinned = models.BooleanField(default=False)
 
+    def _split_tags(self):
+        return self.tag.split(',')
+
+    tags = property(_split_tags)
+
+    class Meta:
+        ordering = ( 'dateAdded', )
+
+
 
 class sharedExpense(models.Model):
     wit = models.ForeignKey(settings.AUTH_USER_MODEL, null=False)

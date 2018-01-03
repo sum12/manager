@@ -109,6 +109,10 @@ LOGGING = {
                 },
             },
         'handlers': {
+            'null': {
+                'level': 'DEBUG',
+                'class': 'logging.NullHandler',
+                },
             'file': {
                 'level': 'DEBUG',
                 'class': 'logging.FileHandler',
@@ -118,7 +122,7 @@ LOGGING = {
             },
         'loggers': {
             'django': {
-                'handlers':['file'],
+                'handlers':['null'],
                 'propagate': True,
                 'level':'DEBUG',
                 },

@@ -11,7 +11,7 @@ class ExpenseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Expenses
-        fields = ("id", "amount", 'spender','tag', 'dateAdded', 'shared', 'pinned')
+        fields = ("id", "amount", 'spender','tag', 'dateAdded', 'shared', 'pinned', 'tags' )
 
 
 class ShareExpenseSerializer(serializers.ModelSerializer):
