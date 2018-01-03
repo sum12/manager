@@ -109,6 +109,10 @@ LOGGING = {
                 },
             },
         'handlers': {
+            'nope': {
+                'level': 'DEBUG',
+                'class': 'logging.NullHandler',
+                },
             'file': {
                 'level': 'DEBUG',
                 'class': 'logging.FileHandler',
@@ -118,13 +122,9 @@ LOGGING = {
             },
         'loggers': {
             'django': {
-                'handlers':['file'],
+                'handlers':['nope'],
                 'propagate': True,
                 'level':'DEBUG',
-                },
-            'expense': {
-                'handlers': ['file'],
-                'level': 'DEBUG',
                 },
             'daily': {
                 'handlers': ['file'],
@@ -135,8 +135,7 @@ LOGGING = {
 
 
 
-#if os.path.expanduser('~') != '/home/sumit':
-#    from local_settings import *
-#    import dj_database_url
-#    DATABASES['default'] =  dj_database_url.config()
-
+try:
+    from local_settings import *
+except:
+    pass

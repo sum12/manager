@@ -9,6 +9,7 @@ import datetime as dt
 import logging
 logger = logging.getLogger(__name__)
 
+
 class DefaultsMixin(object):
     authetication_classes = (
             authentication.BasicAuthentication,
@@ -25,14 +26,22 @@ class DefaultsMixin(object):
             filters.OrderingFilter,
             )
 
+
 class DailyActivityViewSet(DefaultsMixin, viewsets.ModelViewSet):
     serializer_class = ActivitySerializer
     search_fields = ("type_order__type",)
 
     def get_queryset(self):
-        until = dt.datetime.today() - dt.timedelta(days=7)
+        # frm = today-7
+        # to = frm+7
+        frm = int(self.request.query_params.get('from', 7))
+        to = int(self.request.query_params.get('num', frm))
         qry = activity.objects
-        qry = qry.filter(on__gte=until)
+        a = dt.datetime.today() - dt.timedelta(days=frm)
+        b = a + dt.timedelta(days=to)
+        ## a <= ... <=b
+        qry = qry.filter(on__gte=a)
+        qry = qry.filter(on__lte=b)
         return qry.all()
 
 

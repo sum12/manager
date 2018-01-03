@@ -4,6 +4,8 @@ from rest_framework import serializers
 import datetime as dt
 from .models import activity,typeorder
 
+import logging
+logger = logging.getLogger(__name__)
 
 class ActivitySerializer(serializers.ModelSerializer):
 
