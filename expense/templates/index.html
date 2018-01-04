@@ -54,10 +54,12 @@
             </div>
         </div>
         
-        <alert ng-repeat="alert in alerts" style="position: fixed; z-index: 9999; bottom: 20px; right: 20px; width: 300px;" 
-        dismiss-on-timeout=2000 
-        close="closeAlert($index)"
-        type="[[alert.type]]" > [[alert.msg]] </alert>
+        <div style="position: fixed; z-index: 9999; bottom: 20px; right: 20px; width: 300px;" >
+            <alert ng-repeat="alert in alerts"
+            dismiss-on-timeout=2000 
+            close="closeAlert($index)"
+            type="[[alert.type]]" > [[alert.msg]] </alert>
+        </div>
     </div>
 
         <!-- bower:js -->
