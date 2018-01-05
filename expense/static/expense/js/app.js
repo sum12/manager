@@ -56,7 +56,8 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                 $scope.doing = false;
             });
 
-        $http.get('/expense/tagsums?from='+ ( currentDate.getDate()-1 ))
+        $http.get('/expense/tagsums?year='+ $scope.pagedate.getFullYear() +
+                '&month='+parseInt($scope.pagedate.getMonth()+1))
             .success(function(response){
                 $scope.tagsums = response;
                 //console.log($scope.taglist);

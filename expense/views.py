@@ -46,16 +46,13 @@ class ExpenseViewSet(DefaultsMixin, viewsets.ModelViewSet):
 
     @list_route(methods=['get'])
     def tagsums(self, request):
-        frm = int(self.request.query_params.get('from', 7))
-        to = int(self.request.query_params.get('num', frm))
-        qry = Expenses.objects
-        a = now().today() - dt.timedelta(days=frm)
-        b = a + dt.timedelta(days=to)
-        # frm = today-7
-        # to = frm+7
-        # a <= ... <=b
         qry = Expenses.objects.order_by('dateAdded')
-        qry = qry.filter(dateAdded__gte=a, dateAdded__lte=b)
+        year = self.request.query_params.get('year')
+        month = self.request.query_params.get('month')
+        day = self.request.query_params.get('day')
+        if year: qry=qry.filter(dateAdded__year=int(year))
+        if month: qry=qry.filter(dateAdded__month=int(month))
+        if day: qry=qry.filter(dateAdded__day=int(day))
         rows = list(qry.all())
         alltags = set(",".join(r.tag for r in rows).split(','))
         tagsums = dict((t, {}) for t in alltags)
