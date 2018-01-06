@@ -18,8 +18,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('since', models.DateField(default=django.utils.timezone.now)),
-                ('f1', models.ForeignKey(related_name='friends_with', to=settings.AUTH_USER_MODEL)),
-                ('f2', models.ForeignKey(related_name='friends_of', to=settings.AUTH_USER_MODEL)),
+                ('f1', models.ForeignKey(related_name='friends_with', to=settings.AUTH_USER_MODEL, on_delete=models.PROTECT,)),
+                ('f2', models.ForeignKey(related_name='friends_of', to=settings.AUTH_USER_MODEL, on_delete=models.PROTECT,)),
             ],
             options={
             },

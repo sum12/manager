@@ -15,8 +15,14 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='User',
             fields=[
-                ('user_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
-                ('friends', models.ForeignKey(default=None, to='user_management.User', null=True)),
+                ('user_ptr',
+                    models.OneToOneField(parent_link=True, auto_created=True,
+                                         to=settings.AUTH_USER_MODEL,
+                                         on_delete=models.PROTECT,
+                                         primary_key=True, serialize=False)),
+                ('friends', models.ForeignKey(default=None, null=True,
+                                              to='user_management.User',
+                                              on_delete=models.PROTECT)),
             ],
             options={
                 'abstract': False,

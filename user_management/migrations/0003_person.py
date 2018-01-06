@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('date_of_birth', models.DateField()),
                 ('is_active', models.BooleanField(default=True)),
                 ('is_admin', models.BooleanField(default=False)),
-                ('friends', models.ForeignKey(to='user_management.Person')),
+                ('friends', models.ForeignKey(to='user_management.Person', on_delete=models.PROTECT)),
             ],
             options={
                 'abstract': False,
