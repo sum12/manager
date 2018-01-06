@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='sharedexpense',
             name='t',
-            field=models.CharField(default=b'', max_length=b'100'),
+            field=models.CharField(default=b'', max_length=100),
             preserve_default=True,
         ),
     ]

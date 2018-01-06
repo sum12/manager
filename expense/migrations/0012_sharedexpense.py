@@ -15,8 +15,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='sharedExpense',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('sharedWtih', models.ForeignKey(to='user_management.User')),
+                ('id', models.AutoField(verbose_name='ID', serialize=False,
+                                        auto_created=True, primary_key=True)),
+                ('sharedWtih', models.ForeignKey(to='user_management.User',
+                                                 on_delete=models.PROTECT)),
             ],
             options={
             },

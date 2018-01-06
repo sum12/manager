@@ -15,13 +15,16 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='expenses',
             name='sharedWith',
-            field=models.ForeignKey(related_name='+', default=None, to='user_management.User'),
+            field=models.ForeignKey(related_name='+', default=None,
+                                    to='user_management.User',
+                                    on_delete=models.PROTECT),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='expenses',
             name='spender',
-            field=models.ForeignKey(to='user_management.User'),
+            field=models.ForeignKey(to='user_management.User',
+                                    on_delete=models.PROTECT),
             preserve_default=True,
         ),
     ]

@@ -14,7 +14,11 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='expenses',
             name='sharedWith',
-            field=models.ForeignKey(related_name='+', default=None, to='user_management.User', null=True),
+            field=models.ForeignKey(related_name='+',
+                                    default=None,
+                                    to='user_management.User',
+                                    on_delete=models.PROTECT,
+                                    null=True),
             preserve_default=True,
         ),
     ]

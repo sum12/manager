@@ -15,12 +15,13 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='sharedExpense',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('exp', models.ForeignKey(to='expense.Expenses')),
-                ('wit', models.ForeignKey(to='user_management.User')),
-            ],
-            options={
-            },
+                ('id', models.AutoField(verbose_name='ID', serialize=False,
+                                        auto_created=True, primary_key=True)),
+                ('exp', models.ForeignKey(to='expense.Expenses',
+                                          on_delete=models.PROTECT)),
+                ('wit', models.ForeignKey(to='user_management.User',
+                                          on_delete=models.PROTECT))],
+            options={},
             bases=(models.Model,),
         ),
     ]

@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='sharedexpense',
             name='sharedWtih',
-            field=models.ForeignKey(to='user_management.User', null=True),
+            field=models.ForeignKey(to='user_management.User',
+                                    on_delete=models.PROTECT,
+                                    null=True),
             preserve_default=True,
         ),
     ]
