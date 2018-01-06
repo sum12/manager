@@ -3,7 +3,6 @@ from .models import activity, typeorder
 from .serializers import ActivitySerializer, TypeOrderSerializer
 from rest_framework import viewsets, authentication, permissions, filters
 
-import cStringIO
 import datetime as dt
 
 import logging

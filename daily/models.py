@@ -9,7 +9,7 @@ class typeorder(models.Model):
 
 class activity(models.Model):
     on = models.DateTimeField(default=timezone.now)
-    type_order = models.ForeignKey(typeorder)
+    type_order = models.ForeignKey(typeorder, on_delete=models.PROTECT)
     data = models.TextField(default='')
 
     class Meta:
