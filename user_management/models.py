@@ -6,8 +6,8 @@ User = settings.AUTH_USER_MODEL
 
 
 class Friend(models.Model):
-    f1 = models.ForeignKey(User, related_name='friends_with', null=False)
-    f2 = models.ForeignKey(User, related_name='friends_of', null=False)
+    f1 = models.ForeignKey(User, related_name='friends_with', null=False, on_delete=models.PROTECT)
+    f2 = models.ForeignKey(User, related_name='friends_of', null=False, on_delete=models.PROTECT)
     since = models.DateField(null=False, default=timezone.now)
 
     @property
