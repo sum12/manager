@@ -19,13 +19,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '=mqss@3(pu8-+i_*hotx76&#8&bpkzs4ygma7$=9(z+=*6z!ir'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-TEMPLATE_DEBUG = True
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = False
+
+TEMPLATE_DEBUG = False
 
 ALLOWED_HOSTS = []
-
 # Application definition
 
 INSTALLED_APPS = (
@@ -146,8 +146,7 @@ LOGGING = {
 
 
 
-#if os.path.expanduser('~') != '/home/sumit':
-#    from local_settings import *
-#    import dj_database_url
-#    DATABASES['default'] =  dj_database_url.config()
-
+try:
+    from local_settings import *
+except:
+    pass
