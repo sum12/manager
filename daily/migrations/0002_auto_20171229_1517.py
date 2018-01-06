@@ -9,7 +9,8 @@ def copy_typestotypeoder(apps, schema_editor):
     activity = apps.get_model('daily.activity')
     typeorder = apps.get_model('daily.typeorder')
     tos = []
-    for odr, type in enumerate(set(act.type for act in activity.objects.all())):
+    alltypes = set(act.type for act in activity.objects.all())
+    for odr, type in enumerate(alltypes):
         to = typeorder()
         to.type = type
         to.order = odr
@@ -32,7 +33,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='typeorder',
             fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False,
+                                        auto_created=True, primary_key=True)),
                 ('type', models.CharField(max_length=255)),
                 ('order', models.PositiveIntegerField()),
             ],
@@ -47,7 +49,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='activity',
             name='type_order',
-            field=models.ForeignKey(default=0, to='daily.typeorder'),
+            field=models.ForeignKey(default=0, to='daily.typeorder',
+                                    on_delete=models.PROTECT),
             preserve_default=False,
         ),
         migrations.AlterField(
