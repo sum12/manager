@@ -57,3 +57,5 @@ STATIC
 .venv
 bower_components
 node_modules
+
+local_settings.py
