@@ -1,7 +1,8 @@
 from rest_framework import viewsets
+from rest_framework import viewsets, authentication, permissions, filters
+from django.utils import timezone
 from .models import activity, typeorder
 from .serializers import ActivitySerializer, TypeOrderSerializer
-from rest_framework import viewsets, authentication, permissions, filters
 
 import datetime as dt
 
@@ -29,7 +30,7 @@ class DailyActivityViewSet(DefaultsMixin, viewsets.ModelViewSet):
     search_fields = ("type_order__type",)
 
     def get_queryset(self):
-        until = dt.datetime.today() - dt.timedelta(days=7)
+        until = timezone.localtime() - dt.timedelta(days=7)
         qry = activity.objects
         qry = qry.filter(on__gte=until)
         return qry.all()

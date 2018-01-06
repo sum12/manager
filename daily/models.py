@@ -8,7 +8,7 @@ class typeorder(models.Model):
 
 
 class activity(models.Model):
-    on = models.DateTimeField(default=timezone.now)
+    on = models.DateTimeField(default=timezone.localtime)
     type_order = models.ForeignKey(typeorder, on_delete=models.PROTECT)
     data = models.TextField(default='')
 
