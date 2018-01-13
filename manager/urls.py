@@ -1,25 +1,31 @@
 from django.conf.urls import url
 from django.views.generic import TemplateView
+from django.contrib.auth.decorators import login_required
 from manager import settings
-from user_management import urls as user_urls
+# from user_management import urls as user_urls
 from expense import urls as expense_urls
 from daily import urls as daily_urls
 
 params = {'template_name': 'index.html',
           'extra_context': {'STATIC_URL': settings.STATIC_URL}}
 
-templateview = TemplateView.as_view(**params)
+templateView = TemplateView.as_view(**params)
+loggedinView = login_required(templateView)
+
+expenseView = loggedinView
+
 
 urlparams = dict(year='(?P<year>[0-9]{4})',
                  month='(?P<month>[0-9]{1,2})',
                  day='(?P<day>[0-9]{1,2})'
                  )
 
-urlpatterns = [url(r'^{year}/{month}/{day}$'.format(**urlparams), templateview),
-               url(r'^{year}/{month}$'.format(**urlparams), templateview),
-               url(r'^{year}$'.format(**urlparams), templateview),
-               url(r'^$', templateview)]
+urls = [url(r'^{year}/{month}/{day}$'.format(**urlparams), expenseView),
+        url(r'^{year}/{month}$'.format(**urlparams), expenseView),
+        url(r'^{year}$'.format(**urlparams), expenseView),
+        url(r'^$', expenseView)]
 
-urlpatterns += user_urls.router.urls
-urlpatterns += expense_urls.urlpatterns
-urlpatterns += daily_urls.urlpatterns
+# urls += user_urls.router.urlpatterns
+urls += expense_urls.urlpatterns
+urls += daily_urls.urlpatterns
+urlpatterns = urls
