@@ -50,7 +50,8 @@ MIDDLEWARE = (
 )
 
 ROOT_URLCONF = 'manager.urls'
-
+LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = '/'
 WSGI_APPLICATION = 'manager.wsgi.application'
 
 
@@ -89,7 +90,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'APP_DIRS': True,
         'OPTIONS': {
-            'context_processors': 'django.contrib.auth.context_processors.auth'
+            'context_processors': ['django.contrib.auth.context_processors.auth']
             }
     },
 ]
