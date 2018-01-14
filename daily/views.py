@@ -15,7 +15,7 @@ class DefaultsMixin(object):
             authentication.TokenAuthentication,
             )
     permission_classes = (
-            #permissions.IsAuthenticated,
+            permissions.IsAuthenticated,
             )
 #    paginate_by = 25
 #    pagination_param = 'page_size'
