@@ -3,6 +3,10 @@ angular.module('managerapp', [ 'ui.bootstrap'])
     $interpolateProvider.startSymbol('[[');
     $interpolateProvider.endSymbol(']]');
 })
+.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+}])
 .controller("expenseController",function($scope, $http){
     $scope.parseDate = function(key){
        var x =  -parseInt(key.dateAdded.split('-').join(''));
