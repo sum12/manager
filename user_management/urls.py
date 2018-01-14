@@ -1,8 +1,10 @@
-from django.contrib import admin
+from django.conf.urls import url
+from django.contrib.auth import views as authViews
 
-from rest_framework.routers import SimpleRouter
-from . import views
+viewParams = {'template_name': 'user_management/login.html'}
 
-router = SimpleRouter(trailing_slash=False)
-router.register(r'person', views.PersonViewSet)
-router.register(r'friend', views.FriendViewSet)
+urls = [
+        url('^login', authViews.login, viewParams, name='login'),
+        url('^logout', authViews.logout)
+        ]
+urlpatterns = urls
