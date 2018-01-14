@@ -1,4 +1,3 @@
-from rest_framework import viewsets
 from rest_framework import viewsets, authentication, permissions, filters
 from django.utils import timezone
 from .models import activity, typeorder
@@ -6,8 +5,6 @@ from .serializers import ActivitySerializer, TypeOrderSerializer
 
 import datetime as dt
 
-import logging
-logger = logging.getLogger(__name__)
 
 class DefaultsMixin(object):
     authetication_classes = (
@@ -20,10 +17,11 @@ class DefaultsMixin(object):
 #    paginate_by = 25
 #    pagination_param = 'page_size'
 #    max_paginate = 100
-    filter_backends=(
+    filter_backends = (
             filters.SearchFilter,
             filters.OrderingFilter,
             )
+
 
 class DailyActivityViewSet(DefaultsMixin, viewsets.ModelViewSet):
     serializer_class = ActivitySerializer
