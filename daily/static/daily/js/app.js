@@ -156,8 +156,12 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
 
             $scope.get = function(){
                 $scope.saving = true;
-                url = $scope.baseurl + "?search=" + $scope.ob.daily.type;
-                conn = $http.get(url)
+                url = $scope.baseurl;
+                params = {
+                    "search": $scope.ob.daily.type,
+                    "day": 31
+                }
+                conn = $http.get(url, {params:params})
                         .success(function(res){
                             $scope.saving = false;
                             for (i=0; i<res.length;i++){

@@ -28,7 +28,8 @@ class DailyActivityViewSet(DefaultsMixin, viewsets.ModelViewSet):
     search_fields = ("type_order__type",)
 
     def get_queryset(self):
-        until = timezone.localtime() - dt.timedelta(days=7)
+        days = self.request.query_params.get('days', 7)
+        until = timezone.localtime() - dt.timedelta(days=days)
         qry = activity.objects
         qry = qry.filter(on__gte=until)
         return qry.all()
