@@ -159,7 +159,7 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
                 url = $scope.baseurl;
                 params = {
                     "search": $scope.ob.daily.type,
-                    "days": 31
+                    "days": 365
                 }
                 conn = $http.get(url, {params:params})
                         .success(function(res){
