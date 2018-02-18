@@ -19,20 +19,31 @@
     "angular": "<1.6",
     "bootstrap": "~3.3.5",
     "fontawesome": "~4.4.0"
-  },
-  "devDependencies": {},
-  "overrides": {
-    "fontawesome": {
-      "main": [
-        "css/font-awesome.css",
-        "./fonts/*"
-      ]
     },
-    "font-awesome": {
-      "main": [
-        "css/font-awesome.css",
-        "./fonts/*"
-      ]
-    }
+    "devDependencies": {},
+    "overrides": {
+      "fontawesome": {
+        "main": [
+          "css/font-awesome.css",
+          "./fonts/*"
+        ]
+      },
+      "angular": {
+        "main": [
+          "angular.min.js"
+        ]
+      },
+      "angular-bootstrap": {
+        "main": ["./ui-bootstrap-tpls.min.js"]
+      },
+      "bootstrap": {
+        "main": [
+          "dist/js/bootstrap.min.js",
+          "dist/css/bootstrap.min.css"
+        ]
+      },
+      "jquery":{
+        "main": "dist/jquery.min.js"
+      }
   }
 }

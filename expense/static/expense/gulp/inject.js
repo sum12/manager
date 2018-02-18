@@ -39,6 +39,7 @@ gulp.task('inject', ['styles'], function () {
     devDependencies: true,
     ignorePath:'../../static/',
     directory: 'bower_components',
+    bowerJson: require('../bower.json'),
     relative:false,
     fileTypes:{
         html:{
@@ -55,7 +56,7 @@ gulp.task('inject', ['styles'], function () {
   };
 
   return gulp.src(paths.src + '/../../templates/index.html')
-    .pipe($.inject(injectStyles, injectOptions))
+//    .pipe($.inject(injectStyles, injectOptions))
     .pipe($.inject(injectScripts, injectOptions))
     .pipe(wiredep(wiredepOptions))
     .pipe(gulp.dest(paths.src + '/../../templates/'));
