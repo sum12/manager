@@ -10,13 +10,6 @@
         <script type="text/javascript">
         var ANGULAR_TEMPLATE_PATH = "{{ STATIC_URL }}";
         </script>
-        <!-- inject:css -->
-        <!-- endinject -->
-
-        <!-- bower:css -->
-        <link rel="stylesheet" href="{% static "../static/expense/bower_components/bootstrap/dist/css/bootstrap.css" %}" />
-        <link rel="stylesheet" href="{% static "../static/expense/bower_components/fontawesome/css/font-awesome.css" %}" />
-        <!-- endbower -->
 
     </head>
     <body class='container'>
@@ -46,11 +39,20 @@
         </div>
     </div>
 
+        <!-- inject:css -->
+        <link rel="stylesheet" href="{% static "expense/css/fontawesome/scss/font-awesome.css" %}" />
+        <!-- endinject -->
+
+        <!-- bower:css -->
+        <link rel="stylesheet" href="{% static "../static/expense/bower_components/bootstrap/dist/css/bootstrap.min.css" %}" />
+        <link rel="stylesheet" href="{% static "../static/expense/bower_components/fontawesome/css/font-awesome.css" %}" />
+        <!-- endbower -->
+
         <!-- bower:js -->
-        <script src="{% static "../static/expense/bower_components/angular/angular.js" %}" type="text/javascript" charset="utf-8"></script>
-        <script src="{% static "../static/expense/bower_components/angular-bootstrap/ui-bootstrap-tpls.js" %}" type="text/javascript" charset="utf-8"></script>
-        <script src="{% static "../static/expense/bower_components/jquery/dist/jquery.js" %}" type="text/javascript" charset="utf-8"></script>
-        <script src="{% static "../static/expense/bower_components/bootstrap/dist/js/bootstrap.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/expense/bower_components/angular/angular.min.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/expense/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/expense/bower_components/jquery/dist/jquery.min.js" %}" type="text/javascript" charset="utf-8"></script>
+        <script src="{% static "../static/expense/bower_components/bootstrap/dist/js/bootstrap.min.js" %}" type="text/javascript" charset="utf-8"></script>
         <!-- endbower -->
 
         <!-- inject:js -->
