@@ -7,6 +7,16 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
     $httpProvider.defaults.xsrfCookieName = 'csrftoken';
     $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 }])
+.filter('range', function() {
+    return function(input, min, max, stride) {
+        min = parseInt(min, 10);
+        max = parseInt(max, 10);
+        stride=stride || 1;
+        for (var i = min; i < max && stride > 0 || i > max && stride < 0; i+=stride)
+            input.push(i);
+        return input;
+    };
+})
 .controller("dailyController",function($scope, $http, $q){
     $scope.uploadorder = function(){
         var cons = []
@@ -117,13 +127,13 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
         controller:function($scope, $http){
             $scope.saving = false;
             $scope.newtask = {}; //because ng-if and ng-model dont work well togther,
-            $scope.donedates = []; 
+            $scope.donedates = {}; 
             $scope.maxdates = [];
             $scope.todaydate = new Date();
             $scope.caldate = new Date();
 
-            $scope.getDayClass = function(date,mode){
-                console.log(date)
+            $scope.getDayClass = function(date,mode, reduceby){
+                date = new Date(date - (reduceby * 24*60*60*1000));
                 if ($scope.doneOn({dtstr:date.toDateString()})){
                     return 'full';
                 }
@@ -145,15 +155,11 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
 
 
             $scope.doneOn = function(dt){
-                for (i=0;i<$scope.donedates.length;i++){
-                    //console.log($scope.donedates[i].dtstr , dt.dtstr)
-                    if ($scope.donedates[i].dtstr === dt.dtstr){
-                        return true;
-                    }
+                if ($scope.donedates[dt.dtstr] !== undefined){
+                    return true;
                 }
                 return false;
             }
-
             $scope.get = function(){
                 $scope.saving = true;
                 url = $scope.baseurl;
@@ -170,10 +176,8 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
                                     $scope.ob.donetoday = true;
                                     $scope.ob.id = res[i].id;
                                 }
-                                $scope.donedates.push({
-                                    dtstr : ondate.toDateString(),
-                                    date: ondate.getDate()
-                                })
+                                var dtstr = ondate.toDateString();
+                                $scope.donedates[dtstr] = ondate.getDate()
                                 //console.log("inside")
                             }
                             //console.log($scope.ob.daily.type,$scope.donedates, res)
