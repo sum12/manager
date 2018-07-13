@@ -28,31 +28,52 @@ angular.module('managerapp', [ 'ui.bootstrap'])
     if(!YEAR) YEAR = currentDate.getFullYear();
     if(!MONTH) MONTH = currentDate.getMonth();
     if(!DAY) DAY = 1//currentDate.getDate();
-    $scope.pagedate = new Date(YEAR, MONTH , DAY)
+    $scope.pagedate = new Date(YEAR, MONTH , DAY);
 
-    $scope.reload = function(){
+    $scope.load = function(key, year, month){
+        $scope.monthlyexps = $scope.monthlyexps || {'data':{}, 'promise':{}};
+        console.log(key)
+        if ($scope.monthlyexps.promise[key] === undefined){
+            $scope.monthlyexps.promise[key] = {}
+            $scope.monthlyexps.promise[key].exps = $http.get('/expenses/'+ year +'/'+ month).success(function(){
+                $scope.alerts.push({'type':'success', 'msg':'Got Expenses!!'})
+            })
+            $scope.monthlyexps.promise[key].tagsums = $http.get('/expense/tagsums?year='+ year +
+                '&month='+month).success(function(){
+                    $scope.alerts.push({'type':'success', 'msg':'Got TagTotals!!'})
+                })
+        }
+        return $scope.monthlyexps.promise[key];
+    }
+
+    $scope.reload = function(thedate){
         $scope.explist = [];
         $scope.taglist = [];
         $scope.alerts = [];
         $scope.doing = true;
-        $http.get('/expenses/'+ $scope.pagedate.getFullYear() +'/'+ parseInt($scope.pagedate.getMonth()+1))
-            .success(function(response){
-                res = response;
-                $scope.explist = []
+        thedate = angular.copy(thedate)
+        var year = thedate.getFullYear();  
+        var month = parseInt(thedate.getMonth()+1)
+        var key = year+'-'+month;
+        var prms = $scope.load(key, year, month);
+        prms.exps.success(function(response){
+                var res = response;
+                var explist = [];
+                var taglist = [];
                 for(i=0; i<res.length; i++){
                     //$scope.explist[res[i].id] = res[i];
                     res[i].objdateAdded = new Date(res[i].dateAdded)
-                    $scope.explist.push(res[i]);
+                    explist.push(res[i]);
                     angular.forEach(res[i].tags, function(value){
-                        if ($scope.taglist.indexOf(value) == -1){
-                            $scope.taglist.push(value)
+                        if (taglist.indexOf(value) == -1){
+                            taglist.push(value)
                         }
                     });
                 }
-                //console.log($scope.taglist);
+
+                $scope.explist = explist;
+                $scope.taglist = taglist;
                 $scope.doing = false;
-                $scope.alerts.push({'type':'success', 'msg':'Got Expenses!!'})
-                console.log("Got the data");
             })
             .error(function(what){
                 console.log('Fuck!!');
@@ -60,25 +81,27 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                 $scope.doing = false;
             });
 
-        $http.get('/expense/tagsums?year='+ $scope.pagedate.getFullYear() +
-                '&month='+parseInt($scope.pagedate.getMonth()+1))
-            .success(function(response){
+        prms.tagsums.success(function(response){
                 $scope.tagsums = response;
-                //console.log($scope.taglist);
                 $scope.doing = false;
-                $scope.alerts.push({'type':'success', 'msg':'Got Tag Based Totals!!'})
-                console.log("Got the tagdata");
             })
             .error(function(what){
                 console.log('Fuck!!');
-                console.log(what);
                 $scope.doing = false;
+                console.log(what);
             });
+        $scope.additionalTags(thedate)
+        thedate.setMonth(thedate.getMonth() - 1);
+        year = thedate.getFullYear();  
+        month = parseInt(thedate.getMonth()+1)
+        key = year+'-'+month;
+        $scope.additionalTags(thedate)
+        $scope.load(key, year, month);
     };
-    $scope.additionalTags = function(){
-        var year = $scope.pagedate.getFullYear(),
-            month = $scope.pagedate.getMonth();
-        if ($scope.pagedate.getMonth() == 0) {
+    $scope.additionalTags = function(thedate){
+        var year = thedate.getFullYear(),
+            month = thedate.getMonth();
+        if (thedate.getMonth() == 0) {
             year = year - 1;
             month = 12;
         }
@@ -96,7 +119,6 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                 }
                 //console.log($scope.taglist);
                 $scope.doing = false;
-                $scope.alerts.push({'type':'success', 'msg':'Got It!!'})
                 console.log("Got the data");
             })
             .error(function(what){
@@ -111,13 +133,15 @@ angular.module('managerapp', [ 'ui.bootstrap'])
         console.log(data);
         if(data.hasOwnProperty('id')){
             url = '/expense/'+data.id;
-            console.log("making delete requeset");
             $http.delete(url)
                 .success(function(){
                     console.log("okay");
                     //console.log($scope.explist);
                     //console.log(data);
                     $scope.explist.splice($scope.explist.indexOf(data),1);
+                    var objdate = data.dateAdded.split('-');
+                    var key = parseInt(objdate[0]) + '-' + parseInt(objdate[1]);
+                    delete $scope.monthlyexps.promise[key];
                     if (cb)
                         cb(true);
                     $scope.doing = false;
@@ -141,6 +165,8 @@ angular.module('managerapp', [ 'ui.bootstrap'])
             url += '/'+data.id;
             conn = $http.patch(url,data)
                         .success(function(response){
+                            var key = parseInt(objdate[0]) + '-' + parseInt(objdate[1]);
+                            delete $scope.monthlyexps.promise[key];
                             $scope.explist[$scope.explist.indexOf(data)] = response;
                             //console.log(response);
                             console.log("okay");
@@ -153,6 +179,8 @@ angular.module('managerapp', [ 'ui.bootstrap'])
             conn = $http.post(url,data)
                         .success(function(response){
                             var objdate = response.dateAdded.split('-');
+                            var key = parseInt(objdate[0]) + '-' + parseInt(objdate[1]);
+                            delete $scope.monthlyexps.promise[key];
 
                             if ( (parseInt(objdate[0])) ==( $scope.pagedate.getFullYear() )
                                 && parseInt(objdate[1]) == $scope.pagedate.getMonth() + 1) {
@@ -182,8 +210,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
         $scope.alerts.splice(index, 1);
     };
 
-    $scope.reload();
-
+    $scope.reload($scope.pagedate);
 })
 .directive("expense",function(){
     return{

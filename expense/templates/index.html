@@ -19,11 +19,11 @@
     <div ng-controller="expenseController">
         <div class="row">
             <div ng-if="!doing" class="pull-left">
-                        <a style="display:inline-block" href="#"  ng-click="pagedate.setMonth(pagedate.getMonth()-1) && reload()">
+                        <a style="display:inline-block" href="#"  ng-click="pagedate.setMonth(pagedate.getMonth()-1) && reload(pagedate)">
                             <h4><i class="fa fa-angle-double-left "></i><i class="fa fa-angle-double-left "></i> </h4>
                         </a>
                         <h4 style="display:inline-block" > [[ ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ][pagedate.getMonth()] ]] [[ pagedate.getYear() - 100]]</h4>
-                        <a style="display:inline-block"  href="#" ng-click="pagedate.setMonth(pagedate.getMonth()+1) && reload()">
+                        <a style="display:inline-block"  href="#" ng-click="pagedate.setMonth(pagedate.getMonth()+1) && reload(pagedate)">
                             <h4><i class="fa fa-angle-double-right"></i><i class="fa fa-angle-double-right"></i></h4>
                         </a>
             </div>
@@ -41,7 +41,7 @@
                     tagsums="tagsums"
                     delete-parent="delExpense(d, cb)"\ 
                     update-parent="saveExpense(d, cb)"\
-                    get-more-tags="additionalTags()"\
+                    get-more-tags="additionalTags(pagedate)"\
                     ng-repeat="exp in (filteredExplist = (explist | orderBy : parseDate | filter:filterWord))"> 
                 </div>
             </div>
