@@ -1,3 +1,4 @@
+import django
 from rest_framework import viewsets, authentication, permissions, filters
 from rest_framework.decorators import list_route
 from rest_framework.response import Response
@@ -66,3 +67,18 @@ class ExpenseViewSet(DefaultsMixin, viewsets.ModelViewSet):
                 if tag in row.tags:
                     tagsumlist[rowdate] += row.amount
         return Response(tagsums)
+
+
+def ftpView(request):
+        response = django.http.HttpResponse()
+        response.status_code = 200
+        response['X-Accel-Redirect'] = request.path
+
+        # all this headers are cleared-out, so nginx can serve it's own, based on served file
+        del response['Content-Type']
+        del response['Content-Disposition']
+        del response['Accept-Ranges']
+        del response['Set-Cookie']
+        del response['Cache-Control']
+        del response['Expires']
+        return response
