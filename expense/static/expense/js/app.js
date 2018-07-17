@@ -165,6 +165,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
             url += '/'+data.id;
             conn = $http.patch(url,data)
                         .success(function(response){
+                            var objdate = response.dateAdded.split('-');
                             var key = parseInt(objdate[0]) + '-' + parseInt(objdate[1]);
                             delete $scope.monthlyexps.promise[key];
                             $scope.explist[$scope.explist.indexOf(data)] = response;
