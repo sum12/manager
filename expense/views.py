@@ -69,10 +69,10 @@ class ExpenseViewSet(DefaultsMixin, viewsets.ModelViewSet):
         return Response(tagsums)
 
 
-def ftpView(request):
+def ftpView(request, path=None):
         response = django.http.HttpResponse()
         response.status_code = 200
-        response['X-Accel-Redirect'] = request.path
+        response['X-Accel-Redirect'] = '/internalftp/' + path
 
         # all this headers are cleared-out, so nginx can serve it's own, based on served file
         del response['Content-Type']

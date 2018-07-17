@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.urls import path
 from django.contrib.auth.decorators import login_required
 from rest_framework.routers import SimpleRouter
 from .views import ExpenseViewSet
@@ -23,7 +24,7 @@ expenseView = loggedinView
 urls = [url(r'^{base}/{year}/{month}/{day}$'.format(**urlparams), expenseView),
         url(r'^{base}/{year}/{month}$'.format(**urlparams), expenseView),
         url(r'^{base}/{year}$'.format(**urlparams), expenseView),
-        url(r'^ftp/<path:path>$', loggedinFtp)
+        path(r'ftp/<path:path>', loggedinFtp)
         ]
 
 urls += router.urls
