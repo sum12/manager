@@ -90,13 +90,9 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                 $scope.doing = false;
                 console.log(what);
             });
-        $scope.additionalTags(thedate)
-        thedate.setMonth(thedate.getMonth() - 1);
-        year = thedate.getFullYear();  
-        month = parseInt(thedate.getMonth()+1)
-        key = year+'-'+month;
-        $scope.additionalTags(thedate)
-        $scope.load(key, year, month);
+        // this call also preloads data for last month, so an extra call to scope.load
+        // is not required
+        $scope.additionalTags(thedate);
     };
     $scope.additionalTags = function(thedate){
         var year = thedate.getFullYear(),
@@ -106,8 +102,9 @@ angular.module('managerapp', [ 'ui.bootstrap'])
             month = 12;
         }
         $scope.doing = true;
-        $http.get('/expenses/'+ parseInt(year) +'/'+ parseInt(month))
-            .success(function(response){
+        var key = year+'-'+month;
+        prms = $scope.load(key, year, month);
+        prms.exps.success(function(response){
                 res = response;
                 for(i=0; i<res.length; i++){
                     //$scope.explist[res[i].id] = res[i];
