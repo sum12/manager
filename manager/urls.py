@@ -20,10 +20,7 @@ urlparams = dict(year='(?P<year>[0-9]{4})',
                  day='(?P<day>[0-9]{1,2})'
                  )
 
-urls = [url(r'^{year}/{month}/{day}$'.format(**urlparams), expenseView),
-        url(r'^{year}/{month}$'.format(**urlparams), expenseView),
-        url(r'^{year}$'.format(**urlparams), expenseView),
-        url(r'^$', expenseView)]
+urls = [url(r'^{year}?/?{month}?/?{day}?$'.format(**urlparams), expenseView)]
 
 urls += user_urls.urlpatterns
 urls += expense_urls.urlpatterns
