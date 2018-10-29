@@ -187,7 +187,7 @@ angular.module('dailyapp', [ 'ui.bootstrap'])
             $scope.toggle = function(){
                 $scope.saving = true;
                 if ($scope.ob.id === null) {
-                    data = {"type_order": $scope.daily.id}
+                    data = {"type_order_id": $scope.daily.id}
                     //console.log(data)
                     conn = $http.post($scope.baseurl,data)
                             .success(function(response){

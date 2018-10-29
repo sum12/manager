@@ -15,6 +15,10 @@ class ActivitySerializer(serializers.ModelSerializer):
 
     daysbefore = serializers.SerializerMethodField()
     donetoday = serializers.SerializerMethodField()
+    type_order_id = serializers.ModelField(
+            model_field=activity()._meta.get_field('type_order_id'),
+            write_only=True
+            )
 
     def get_daysbefore(self, obj):
         today = dt.datetime.today().date()
