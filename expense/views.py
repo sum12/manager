@@ -30,7 +30,7 @@ class ExpenseViewSet(DefaultsMixin, viewsets.ModelViewSet):
     search_fields = ("tag",)
 
     def get_queryset(self):
-        qry = Expenses.objects
+        qry = Expenses.objects.filter(spender_id=self.request.user.id)
         year = self.kwargs.get('year')
         month = self.kwargs.get('month')
         day = self.kwargs.get('day')
@@ -44,7 +44,8 @@ class ExpenseViewSet(DefaultsMixin, viewsets.ModelViewSet):
 
     @list_route(methods=['get'])
     def tagsums(self, request):
-        qry = Expenses.objects.order_by('dateAdded')
+        qry = Expenses.objects.filter(spender_id=self.request.user.id)
+        qry = qry.order_by('dateAdded')
         year = self.request.query_params.get('year')
         month = self.request.query_params.get('month')
         day = self.request.query_params.get('day')
