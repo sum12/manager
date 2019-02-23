@@ -10,6 +10,9 @@ class TypeOrderSerializer(serializers.ModelSerializer):
         model = typeorder
         fields = ('id', 'type', 'order')
 
+    def create(self, validated_data):
+        validated_data['user_id'] = self.context['request'].user.id
+        return typeorder.objects.create(**validated_data)
 
 class ActivitySerializer(serializers.ModelSerializer):
 

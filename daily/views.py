@@ -34,11 +34,16 @@ class DailyActivityViewSet(DefaultsMixin, viewsets.ModelViewSet):
             days = 7
         until = timezone.localtime() - dt.timedelta(days=days)
         qry = activity.objects
+        qry = qry.filter(type_order__user=self.request.user.id)
         qry = qry.filter(on__gte=until)
         return qry.all()
 
 
 class TypeViewSet(DefaultsMixin, viewsets.ModelViewSet):
     serializer_class = TypeOrderSerializer
-    queryset = typeorder.objects.all()
     search_fields = ("type",)
+
+    def get_queryset(self):
+        qry = typeorder.objects
+        qry = qry.filter(user_id=self.request.user.id)
+        return qry
