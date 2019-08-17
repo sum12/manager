@@ -18,7 +18,7 @@
     <body class='container'>
     <div ng-controller="expenseController">
         <div class="row">
-            <div ng-if="!doing" class="pull-left">
+            <div ng-if="doing === 0" class="pull-left">
                         <div>
                             <a style="display:inline-block" href="#"  ng-click="pagedate.setMonth(pagedate.getMonth()-1) && reload(pagedate)">
                                 <h4><i class="fa fa-angle-double-left "></i><i class="fa fa-angle-double-left "></i> </h4>
@@ -40,8 +40,8 @@
             </div>
             <div class="pull-right" >
                 <div >
-                    <h4 ng-if="!doing" class="pull-left" align="center"> <i class="fa fa-inr"></i>: [[ sum(filteredExplist , 'amount') ]]</h4>
-                    <h4 ng-if="doing" class="pull-left" align="center"> <i class="fa fa-spinner fa-pulse"></i></h4>
+                    <h4 ng-if="doing==0" class="pull-left" align="center"> <i class="fa fa-inr"></i>: [[ sum(filteredExplist , 'amount') ]]</h4>
+                    <h4 ng-if="doing>0" class="pull-left" align="center"> <i class="fa fa-spinner fa-pulse"></i></h4>
                 </div>
                 <input type="text"  ng-model=filterWord>
             </div>

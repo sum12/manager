@@ -29,18 +29,22 @@ angular.module('managerapp', [ 'ui.bootstrap'])
     if(!MONTH) MONTH = currentDate.getMonth();
     if(!DAY) DAY = 1//currentDate.getDate();
     $scope.pagedate = new Date(YEAR, MONTH , DAY);
+    $scope.doing = 0;
 
     $scope.load = function(key, year, month){
         $scope.monthlyexps = $scope.monthlyexps || {'data':{}, 'promise':{}};
         console.log(key)
         if ($scope.monthlyexps.promise[key] === undefined){
             $scope.monthlyexps.promise[key] = {}
+            $scope.doing+=2;
             $scope.monthlyexps.promise[key].exps = $http.get('/expenses/'+ year +'/'+ month).success(function(){
                 $scope.alerts.push({'type':'success', 'msg':'Got Expenses!!'})
+                $scope.doing--;
             })
             $scope.monthlyexps.promise[key].tagsums = $http.get('/expense/tagsums?year='+ year +
                 '&month='+month).success(function(){
                     $scope.alerts.push({'type':'success', 'msg':'Got TagTotals!!'})
+                    $scope.doing--;
                 })
         }
         return $scope.monthlyexps.promise[key];
@@ -50,7 +54,6 @@ angular.module('managerapp', [ 'ui.bootstrap'])
         $scope.explist = [];
         $scope.taglist = [];
         $scope.alerts = [];
-        $scope.doing = true;
         thedate = angular.copy(thedate)
         var year = thedate.getFullYear();  
         var month = parseInt(thedate.getMonth()+1)
@@ -73,21 +76,21 @@ angular.module('managerapp', [ 'ui.bootstrap'])
 
                 $scope.explist = explist;
                 $scope.taglist = taglist;
-                $scope.doing = false;
+                console.log("Got the data: " + $scope.doing);
             })
             .error(function(what){
                 console.log('Fuck!!');
                 console.log(what);
-                $scope.doing = false;
+                $scope.doing--;
             });
 
         prms.tagsums.success(function(response){
                 $scope.tagsums = response;
-                $scope.doing = false;
+                console.log("Got the data: " + $scope.doing);
             })
             .error(function(what){
                 console.log('Fuck!!');
-                $scope.doing = false;
+                $scope.doing--;
                 console.log(what);
             });
         // this call also preloads data for last month, so an extra call to scope.load
@@ -101,7 +104,6 @@ angular.module('managerapp', [ 'ui.bootstrap'])
             year = year - 1;
             month = 12;
         }
-        $scope.doing = true;
         var key = year+'-'+month;
         prms = $scope.load(key, year, month);
         prms.exps.success(function(response){
@@ -115,18 +117,17 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                     });
                 }
                 //console.log($scope.taglist);
-                $scope.doing = false;
-                console.log("Got the data");
+                console.log("Got the data: " + $scope.doing);
             })
             .error(function(what){
                 console.log('Fuck!!');
                 console.log(what);
-                $scope.doing = false;
+                $scope.doing--;
             });
         
     }
     $scope.delExpense = function(data, cb){
-        $scope.doing = true;
+        $scope.doing++;
         console.log(data);
         if(data.hasOwnProperty('id')){
             url = '/expense/'+data.id;
@@ -141,14 +142,14 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                     delete $scope.monthlyexps.promise[key];
                     if (cb)
                         cb(true);
-                    $scope.doing = false;
+                    $scope.doing--;
                 })
                 .error(function(){
                     console.log("delete data Errored");
                     console.log(data);
                     if (cb)
                         cb(false);
-                    $scope.doing = false;
+                    $scope.doing--;
                 })
             }
         else{
@@ -157,7 +158,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
     };
     $scope.saveExpense = function(data, cb){
         url = "/expense";
-        $scope.doing = true;
+        $scope.doing++;
         if (data.hasOwnProperty('id')){
             url += '/'+data.id;
             conn = $http.patch(url,data)
@@ -170,7 +171,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                             console.log("okay");
                             if (cb)
                                 cb(true);
-                        $scope.doing = false;
+                        $scope.doing--;
                         });
         }
         else{
@@ -190,7 +191,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                             $scope.alerts.push({'type':'success', 'msg':'Got It!!'})
                             if (cb)
                                 cb(true);
-                        $scope.doing = false;
+                        $scope.doing--;
                         });
         }
         conn.error(function(error){
@@ -200,7 +201,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                     console.log(error);
                     if (cb)
                         cb(false);
-                    $scope.doing = false;
+                    $scope.doing--;
                 })
     };
 
