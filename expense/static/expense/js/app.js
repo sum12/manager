@@ -31,6 +31,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
     $scope.pagedate = new Date(YEAR, MONTH , DAY);
     $scope.doing = 0;
 
+
     $scope.load = function(key, year, month){
         $scope.monthlyexps = $scope.monthlyexps || {'data':{}, 'promise':{}};
         console.log(key)
@@ -40,10 +41,16 @@ angular.module('managerapp', [ 'ui.bootstrap'])
             $scope.monthlyexps.promise[key].exps = $http.get('/expenses/'+ year +'/'+ month).success(function(){
                 $scope.alerts.push({'type':'success', 'msg':'Got Expenses!!'})
                 $scope.doing--;
-            })
+            }).error(function(){
+                    console.log('Fuck!!');
+                    $scope.doing--;
+                })
             $scope.monthlyexps.promise[key].tagsums = $http.get('/expense/tagsums?year='+ year +
                 '&month='+month).success(function(){
                     $scope.alerts.push({'type':'success', 'msg':'Got TagTotals!!'})
+                    $scope.doing--;
+                }).error(function(){
+                    console.log('Fuck!!');
                     $scope.doing--;
                 })
         }
@@ -78,21 +85,11 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                 $scope.taglist = taglist;
                 console.log("Got the data: " + $scope.doing);
             })
-            .error(function(what){
-                console.log('Fuck!!');
-                console.log(what);
-                $scope.doing--;
-            });
 
         prms.tagsums.success(function(response){
                 $scope.tagsums = response;
                 console.log("Got the data: " + $scope.doing);
             })
-            .error(function(what){
-                console.log('Fuck!!');
-                $scope.doing--;
-                console.log(what);
-            });
         // this call also preloads data for last month, so an extra call to scope.load
         // is not required
         $scope.additionalTags(thedate);
@@ -119,12 +116,6 @@ angular.module('managerapp', [ 'ui.bootstrap'])
                 //console.log($scope.taglist);
                 console.log("Got the data: " + $scope.doing);
             })
-            .error(function(what){
-                console.log('Fuck!!');
-                console.log(what);
-                $scope.doing--;
-            });
-        
     }
     $scope.delExpense = function(data, cb){
         $scope.doing++;
