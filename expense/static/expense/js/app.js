@@ -30,6 +30,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
     if(!DAY) DAY = 1//currentDate.getDate();
     $scope.pagedate = new Date(YEAR, MONTH , DAY);
     $scope.doing = 0;
+    $scope.specials = {};
 
 
     $scope.load = function(key, year, month){
@@ -92,8 +93,51 @@ angular.module('managerapp', [ 'ui.bootstrap'])
             })
         // this call also preloads data for last month, so an extra call to scope.load
         // is not required
+        // these functions operate on previous month and thedate == pagedate, pagedate is
+        // javascript object where month starts from 0, so no need to change thedate as it
+        // is already pointing to previous month from servers points of view.
+        // however when thedate has month==0 this speical case needs to handled for server
+        // month==0 is not possible
         $scope.additionalTags(thedate);
+        $scope.loadspecials(thedate);
     };
+    $scope.loadspecials = function(thedate){
+        var year = thedate.getFullYear(),
+            month = thedate.getMonth();
+        if (thedate.getMonth() == 0) {
+            year = year - 1;
+            month = 12;
+        }
+        var key = year+'-'+month;
+        prms = $scope.load(key, year, month);
+        $scope.specials['year'] = 0
+        $scope.specials['month'] = 0
+        prms.exps.success(function(res){
+                for(i=0; i<res.length; i++){
+                    if (res[i].amount == 0 ){
+                        $scope.specials['month']++
+                    }
+                }
+                //console.log($scope.taglist);
+                //console.log("Got the data: " + $scope.doing);
+            })
+        year = thedate.getFullYear() - 1,
+        month = thedate.getMonth() + 1;
+        console.log(thedate)
+        console.log($scope.pagedate)
+        var key = year+'-'+month;
+        prms = $scope.load(key, year, month);
+        prms.exps.success(function(res){
+                for(i=0; i<res.length; i++){
+                    if (res[i].amount == 0 ){
+                        $scope.specials['year']++
+                    }
+                }
+                //console.log($scope.taglist);
+                //console.log("Got the data: " + $scope.doing);
+            })
+    }
+
     $scope.additionalTags = function(thedate){
         var year = thedate.getFullYear(),
             month = thedate.getMonth();
@@ -103,8 +147,7 @@ angular.module('managerapp', [ 'ui.bootstrap'])
         }
         var key = year+'-'+month;
         prms = $scope.load(key, year, month);
-        prms.exps.success(function(response){
-                res = response;
+        prms.exps.success(function(res){
                 for(i=0; i<res.length; i++){
                     //$scope.explist[res[i].id] = res[i];
                     angular.forEach(res[i].tags, function(value){

@@ -23,6 +23,7 @@
                             <a style="display:inline-block" href="#"  ng-click="pagedate.setMonth(pagedate.getMonth()-1) && reload(pagedate)">
                                 <h4><i class="fa fa-angle-double-left "></i><i class="fa fa-angle-double-left "></i> </h4>
                             </a>
+                            <h4 ng-if="specials['month']>0" style="display:inline-block" > [ [[ specials['month'] ]] ]  </h4>
                             <h4 style="display:inline-block" > [[ ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ][pagedate.getMonth()] ]]</h4>
                             <a style="display:inline-block"  href="#" ng-click="pagedate.setMonth(pagedate.getMonth()+1) && reload(pagedate)">
                                 <h4><i class="fa fa-angle-double-right"></i><i class="fa fa-angle-double-right"></i></h4>
@@ -32,6 +33,7 @@
                             <a style="display:inline-block" href="#"  ng-click="pagedate.setYear(pagedate.getYear()-100+2000-1) && reload(pagedate)">
                                 <h4><i class="fa fa-angle-double-left "></i><i class="fa fa-angle-double-left "></i> </h4>
                             </a>
+                            <h4 ng-if="specials['year']>0" style="display:inline-block" > [ [[ specials['year'] ]] ] </h4>
                             <h4 style="display:inline-block" > [[ pagedate.getYear() - 100]]</h4>
                             <a style="display:inline-block"  href="#" ng-click="pagedate.setYear(pagedate.getYear()-100+2000+1) && reload(pagedate)">
                                 <h4><i class="fa fa-angle-double-right"></i><i class="fa fa-angle-double-right"></i></h4>
