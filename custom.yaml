@@ -1,0 +1,5 @@
+manager.ubuntu.local:
+        proxies:
+               /: 'http://unix:/var/run/sum12manager.socket:'
+        aliases:
+                /static: /home/user-data/wwww/manager/static

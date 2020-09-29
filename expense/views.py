@@ -1,6 +1,6 @@
 import django
 from rest_framework import viewsets, authentication, permissions, filters
-from rest_framework.decorators import list_route
+from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from .models import Expenses
@@ -42,7 +42,7 @@ class ExpenseViewSet(DefaultsMixin, viewsets.ModelViewSet):
             qry = qry.filter(dateAdded__day=int(day))
         return qry.all()
 
-    @list_route(methods=['get'])
+    @action(methods=['get'], detail=False)
     def tagsums(self, request):
         qry = Expenses.objects.filter(spender_id=self.request.user.id)
         qry = qry.order_by('dateAdded')

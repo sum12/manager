@@ -7,7 +7,7 @@ from .views import ftpView
 
 
 router = SimpleRouter(trailing_slash=False)
-router.register(r'expense', ExpenseViewSet, base_name='expense')
+router.register(r'expense', ExpenseViewSet, basename='expense')
 #router.register(r'sharedexpense', ExpenseViewSet)
 
 urlparams = dict(year='(?P<year>[0-9]{4})',
